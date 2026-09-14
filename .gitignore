@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Astro generated files and local environment
+.astro/
+.env
+.env.*
+!.env.example

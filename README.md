@@ -1,75 +1,45 @@
-# React + TypeScript + Vite
+# Arveen Poonia
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Minimal static Astro website with TypeScript and Tailwind CSS. The homepage
+only displays “arveen poonia”; the previous React design and assets are removed.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open http://localhost:4321. pnpm uses the pinned Node.js 24.21.0 LTS runtime.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+pnpm check    # Astro and TypeScript diagnostics
+pnpm build    # Check and generate static HTML in dist/
+pnpm preview  # Preview the production build
 ```
+
+## SEO and deployment
+
+Copy `.env.example` to `.env` and set `SITE_URL` to the confirmed production
+origin, including `https://`. Alternatively, set it in your build environment.
+Rebuild after changing it. No production domain is assumed.
+
+The shared layout supports page titles, descriptions, canonical URLs,
+Open Graph and Twitter metadata, optional social images and alt text, and a
+`noindex` prop. Astro renders the content directly into HTML.
+
+With `SITE_URL` configured, builds generate a sitemap and robots.txt pointing
+to it. Without it, the starter emits noindex metadata and disallows crawling.
+Leave it unset for this unfinished placeholder and preview deployments.
+
+## Structure
+
+- `src/pages/index.astro`: empty homepage to begin designing.
+- `src/layouts/BaseLayout.astro`: shared document and SEO metadata.
+- `src/styles/global.css`: Tailwind entry point.
+- `src/pages/robots.txt.ts`: generated crawler instructions.
+- `astro.config.mjs`: static output, Tailwind, and sitemap configuration.
+
+Use the shared layout for future pages and supply a unique title and description.
+Add actual social images when the design is ready. Markdown articles can be
+added later; no example content or application state libraries are included.
