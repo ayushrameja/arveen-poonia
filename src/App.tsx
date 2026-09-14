@@ -1,11 +1,7 @@
-import { Home } from './components/home';
+import { Home } from './features/home/Home';
 
 function App() {
-  return (
-    <div className="app">
-      <Home />
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
