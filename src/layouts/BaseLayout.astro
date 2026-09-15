@@ -25,6 +25,8 @@ const preventIndexing = noindex || !Astro.site;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#faf9f5" />
+    <link rel="preload" href="/fonts/google-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={preventIndexing ? 'noindex, nofollow' : 'index, follow'} />

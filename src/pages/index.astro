@@ -1,8 +1,57 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import KrishnaAscii from '../components/KrishnaAscii.astro';
+import HeroCta from '../components/HeroCta.astro';
+import PeacockMark from '../components/PeacockMark.astro';
 ---
-<BaseLayout>
+<BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
+  <div class="welcome-screen" aria-hidden="true">
+    <PeacockMark />
+    <p>Hare Krishna 🙏</p>
+    <span>A moment of devotion.</span>
+    <div class="welcome-line"></div>
+  </div>
+  <header class="site-header">
+    <a href="#home" class="wordmark">Arveen Poonia<span>Bhakti · Yoga · Conscious living</span></a>
+    <span class="header-note">A little devotion, every day.</span>
+  </header>
   <main>
-    <h1>arveen poonia</h1>
+    <section class="hero" id="home" aria-labelledby="hero-heading">
+      <div class="devotion-orbit" aria-hidden="true"></div>
+      <div class="hero-note hero-note--left" aria-hidden="true"><span class="note-star">✳</span><span>A little stillness.<br />A little more presence.</span><i></i></div>
+      <div class="hero-note hero-note--right" aria-hidden="true"><span class="note-index">A DAILY REMINDER</span><span>Hare Krishna.<br />Hare Rama.</span><i></i></div>
+      <KrishnaAscii />
+      <div class="hero-copy">
+        <p class="eyebrow">Hare Krishna. I’m</p>
+        <h1 id="hero-heading">Arveen <br />Poonia<span class="name-period">.</span></h1>
+        <p class="intro">Welcome to my corner of the world.<br />A space for bhakti, yoga, and conscious living.</p>
+        <div class="hero-actions">
+          <HeroCta href="https://www.youtube.com/@arveenpoonia31/videos" label="Explore my videos" />
+          <HeroCta href="https://www.youtube.com/@arveenpoonia31/about" label="My Journey" secondary />
+        </div>
+      </div>
+      <a class="scroll-cue" href="#explore"><span>There’s more to the journey</span><span aria-hidden="true">↓</span></a>
+    </section>
+    <section class="explore-section" id="explore" aria-labelledby="explore-heading">
+      <p class="eyebrow">Small steps. Every day.</p>
+      <h2 id="explore-heading">Make a little room for what matters.</h2>
+      <div class="explore-links">
+        <a href="https://www.youtube.com/@arveenpoonia31/videos" target="_blank" rel="noopener noreferrer"><span class="explore-number">01 / WATCH</span><h3>A moment of perspective.</h3><p>Explore my videos on devotion and conscious living.</p><span class="explore-action">Visit my channel ↗</span></a>
+        <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer"><span class="explore-number">02 / PRACTICE</span><h3>Come back to yourself.</h3><p>Make space for movement, breath, and yoga.</p><span class="explore-action">Explore yoga ↗</span></a>
+        <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer"><span class="explore-number">03 / DISCOVER</span><h3>Devotion in the everyday.</h3><p>Find something meaningful at the Divine Store.</p><span class="explore-action">Visit the store ↗</span></a>
+      </div>
+    </section>
   </main>
+  <nav class="bottom-nav" aria-label="Primary navigation">
+    <a class="nav-symbol" href="#home" aria-label="Arveen Poonia home"><PeacockMark /></a>
+    <span class="nav-divider" aria-hidden="true"></span>
+    <a href="#home" aria-current="page">Home</a>
+    <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer">Yoga</a>
+    <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Divine Store</a>
+  </nav>
 </BaseLayout>
+<script>
+  import { initScrollNav } from '../scripts/scroll-nav';
+  const nav = document.querySelector<HTMLElement>('.bottom-nav');
+  if (nav) initScrollNav(nav);
+</script>

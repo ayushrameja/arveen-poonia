@@ -1,0 +1,8 @@
+---
+interface Props { href: string; label: string; secondary?: boolean; }
+const { href, label, secondary = false } = Astro.props;
+---
+<a class:list={['hero-cta', { 'hero-cta--secondary': secondary }]} href={href} target="_blank" rel="noopener noreferrer">
+  <span class="cta-label"><span class="cta-label-first">{label}</span><span class="cta-label-echo" aria-hidden="true">{label}</span></span>
+  <span class="cta-arrow" aria-hidden="true">↗</span>
+</a>
