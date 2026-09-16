@@ -1,0 +1,16 @@
+<div class="hero-atmosphere" aria-hidden="true">
+  <div class="atmosphere-personal"></div>
+  <div class="atmosphere-divine">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="lotus-field" width="160" height="160" patternUnits="userSpaceOnUse">
+          <g transform="translate(80 80)" fill="none" stroke="currentColor" stroke-width=".6">
+            {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => <ellipse cx="0" cy="-24" rx="12" ry="30" transform={`rotate(${angle})`} />)}
+            <circle r="7" /><circle r="62" stroke-dasharray="1 7" />
+          </g>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#lotus-field)" />
+    </svg>
+  </div>
+</div>

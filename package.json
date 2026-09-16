@@ -9,7 +9,8 @@
     "test": "node --test tests/*.test.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "assets:ascii": "node scripts/generate-ascii.mjs && node scripts/generate-profile.mjs"
+    "assets:portraits": "node scripts/generate-portraits.mjs",
+    "assets:ascii": "node scripts/generate-ascii.mjs && node scripts/generate-profile.mjs && node scripts/generate-radha-krishna.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

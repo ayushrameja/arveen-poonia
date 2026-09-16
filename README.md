@@ -1,7 +1,8 @@
 # Arveen Poonia
 
 Static Astro website with TypeScript and Tailwind CSS. The homepage features
-a centered colorful Krishna ASCII portrait, a light theme, and a compact dock.
+clear portraits of Arveen and Radha–Krishna, coordinated scene copy and backgrounds,
+a desktop header navigation, and a persistent mobile dock.
 
 ## Local development
 
@@ -17,6 +18,7 @@ pnpm check    # Astro and TypeScript diagnostics
 pnpm test     # Animation accessibility and lifecycle checks
 pnpm build    # Check and generate static HTML in dist/
 pnpm preview  # Preview the production build
+pnpm assets:portraits  # Encode the clear source portraits as responsive WebP files
 ```
 
 ## SEO and deployment
@@ -38,7 +40,9 @@ Leave it unset for preview deployments.
 - `src/pages/index.astro`: devotional homepage and navigation.
 - `src/layouts/BaseLayout.astro`: shared document and SEO metadata.
 - `src/styles/global.css`: typography, responsive layout and motion.
-- `scripts/generate-ascii.mjs`: offline color ASCII conversion.
+- `src/components/HeroPortrait.astro`: responsive clear portrait images.
+- `src/scripts/hero-scene.ts`: synchronized scene switching and playback controls.
+- `scripts/generate-portraits.mjs`: responsive WebP encoding of existing source artwork.
 - `docs/hero-artwork.md`: design decisions, artwork prompt and performance notes.
 - `src/pages/robots.txt.ts`: generated crawler instructions.
 - `astro.config.mjs`: static output, Tailwind, and sitemap configuration.

@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import KrishnaAscii from '../components/KrishnaAscii.astro';
+import HeroPortrait from '../components/HeroPortrait.astro';
 import HeroCta from '../components/HeroCta.astro';
 import PeacockMark from '../components/PeacockMark.astro';
+import HeroAtmosphere from '../components/HeroAtmosphere.astro';
 ---
 <BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
   <div class="welcome-screen" aria-hidden="true">
@@ -12,25 +13,51 @@ import PeacockMark from '../components/PeacockMark.astro';
     <div class="welcome-line"></div>
   </div>
   <header class="site-header">
-    <a href="#home" class="wordmark">Arveen Poonia<span>Bhakti · Yoga · Conscious living</span></a>
-    <span class="header-note">A little devotion, every day.</span>
+    <div class="header-inner">
+      <a href="#home" class="brand"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a>
+      <nav class="header-nav" aria-label="Primary navigation">
+        <a href="#home" aria-current="page">Home</a>
+        <a href="https://www.youtube.com/@arveenpoonia31/videos" target="_blank" rel="noopener noreferrer">Videos</a>
+        <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer">Yoga</a>
+        <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Divine Store</a>
+      </nav>
+    </div>
   </header>
   <main>
-    <section class="hero" id="home" aria-labelledby="hero-heading">
-      <div class="devotion-orbit" aria-hidden="true"></div>
-      <div class="hero-note hero-note--left" aria-hidden="true"><span class="note-star">✳</span><span>A little stillness.<br />A little more presence.</span><i></i></div>
-      <div class="hero-note hero-note--right" aria-hidden="true"><span class="note-index">A DAILY REMINDER</span><span>Hare Krishna.<br />Hare Rama.</span><i></i></div>
-      <KrishnaAscii />
+    <section class="hero" id="home" data-scene="arveen" aria-labelledby="hero-heading">
+      <HeroAtmosphere />
+      <div class="portrait-stage">
+      <div class="devotion-orbit" aria-hidden="true"><span></span></div>
+      <div class="hero-note hero-note--left" aria-hidden="true"><span class="note-index">ROOTED IN DEVOTION</span><span class="scene-note scene-note--divine">Where there is love,<br />there is the divine.</span><span class="scene-note scene-note--personal">A little stillness.<br />A little more presence.</span><i></i></div>
+      <div class="hero-note hero-note--right" aria-hidden="true"><span class="note-index">A DAILY REMINDER</span><span class="scene-note scene-note--divine">Radhe Radhe.<br />Hare Krishna.</span><span class="scene-note scene-note--personal">Breathe deeply.<br />Live with intention.</span><i></i></div>
+      <HeroPortrait />
+      </div>
       <div class="hero-copy">
-        <p class="eyebrow">Hare Krishna. I’m</p>
-        <h1 id="hero-heading">Arveen <br />Poonia<span class="name-period">.</span></h1>
-        <p class="intro">Welcome to my corner of the world.<br />A space for bhakti, yoga, and conscious living.</p>
+        <div class="scene-copy-stack">
+          <div class="scene-copy" data-copy-scene="arveen">
+            <p class="eyebrow">Hare Krishna. I’m</p>
+            <h1 id="hero-heading">Arveen Poonia<span class="name-period">.</span></h1>
+            <p class="intro">Sharing a journey of bhakti, yoga,<br />and conscious living.</p>
+          </div>
+          <div class="scene-copy" data-copy-scene="radha-krishna" aria-hidden="true">
+            <p class="eyebrow">The inspiration behind my journey</p>
+            <h2 class="hero-title" id="inspiration-heading">Radha–Krishna<span class="name-period">.</span></h2>
+            <p class="intro">Their divine love inspires my journey<br />of devotion, presence, and service.</p>
+          </div>
+        </div>
         <div class="hero-actions">
           <HeroCta href="https://www.youtube.com/@arveenpoonia31/videos" label="Explore my videos" />
           <HeroCta href="https://www.youtube.com/@arveenpoonia31/about" label="My Journey" secondary />
         </div>
       </div>
-      <a class="scroll-cue" href="#explore"><span>There’s more to the journey</span><span aria-hidden="true">↓</span></a>
+      <div class="hero-footer">
+        <a class="scroll-cue" href="#explore"><span>There’s more to the journey</span><span aria-hidden="true">↓</span></a>
+        <div class="art-controls" hidden>
+          <button class="art-pause" type="button" data-pause aria-label="Pause artwork animation" aria-pressed="false" title="Pause artwork animation">
+            <svg viewBox="0 0 20 20" width="14" height="14" fill="none" aria-hidden="true"><path class="pause-bars" d="M7 5v10M13 5v10"/><path class="play-triangle" d="m7 4 8 6-8 6Z"/></svg>
+          </button>
+        </div>
+      </div>
     </section>
     <section class="explore-section" id="explore" aria-labelledby="explore-heading">
       <p class="eyebrow">Small steps. Every day.</p>
@@ -42,16 +69,15 @@ import PeacockMark from '../components/PeacockMark.astro';
       </div>
     </section>
   </main>
-  <nav class="bottom-nav" aria-label="Primary navigation">
-    <a class="nav-symbol" href="#home" aria-label="Arveen Poonia home"><PeacockMark /></a>
-    <span class="nav-divider" aria-hidden="true"></span>
+  <nav class="bottom-nav" aria-label="Mobile navigation">
     <a href="#home" aria-current="page">Home</a>
+    <a href="https://www.youtube.com/@arveenpoonia31/videos" target="_blank" rel="noopener noreferrer">Videos</a>
     <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer">Yoga</a>
-    <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Divine Store</a>
+    <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Store</a>
   </nav>
 </BaseLayout>
 <script>
-  import { initScrollNav } from '../scripts/scroll-nav';
-  const nav = document.querySelector<HTMLElement>('.bottom-nav');
-  if (nav) initScrollNav(nav);
+  import { initHeroScene } from '../scripts/hero-scene';
+  const hero = document.querySelector<HTMLElement>('.hero');
+  if (hero) initHeroScene(hero);
 </script>
