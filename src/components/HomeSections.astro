@@ -1,0 +1,18 @@
+---
+import HeroCta from './HeroCta.astro';
+import VideoCard from './VideoCard.astro';
+import ProductCard from './ProductCard.astro';
+import videos from '../data/videos.json';
+import products from '../data/products.json';
+---
+<section class="section-block sage-section" id="explore" aria-labelledby="start-heading"><div class="content-wrap">
+  <div class="section-heading"><div><p class="eyebrow">01 / A place to begin</p><h2 id="start-heading">New here?<br />Start with a little curiosity.</h2></div><a class="text-link" href="/explore/">Explore all videos <span aria-hidden="true">↗</span></a></div>
+  <div class="video-grid">{videos.slice(0,3).map(video => <VideoCard video={video} />)}</div>
+</div></section>
+<section class="section-block"><div class="content-wrap story-split">
+  <div class="story-portrait"><img src="/images/arveen-portrait-640.webp" alt="Arveen Poonia in his lilac kurta" width="640" height="640" loading="lazy" decoding="async" /><span class="image-caption">Rooted in devotion. Open to discovery.</span></div>
+  <div class="story-copy"><p class="eyebrow">02 / The person behind the journey</p><h2>Devotion, woven<br />into everyday life.</h2><p>Bhakti, yoga, and conscious living are the threads that connect Arveen’s work. His videos bring that journey into view, through daily routines, moments with family, and visits to sacred places.</p><p>A space to get to know the person behind the videos—and the inspiration behind it all.</p><HeroCta href="/about/" label="My Journey" secondary /></div>
+</div></section>
+<section class="section-block practice-section"><div class="content-wrap practice-split"><div><p class="eyebrow">03 / Make space for practice</p><h2>A little movement.<br />A moment to return.</h2><p class="section-description">Bring yoga into your everyday rhythm with online classes led by Arveen. Explore the batches and find a time that works for you.</p><HeroCta href="/yoga/" label="Explore yoga classes" /></div><div class="practice-art" aria-hidden="true"><div class="practice-circle"><span>Pause.<br />Breathe.<br />Begin.</span></div><span class="practice-label">MOVEMENT · BREATH · PRESENCE</span></div></div></section>
+<section class="section-block"><div class="content-wrap"><div class="section-heading"><div><p class="eyebrow">04 / Arveen Divine</p><h2>Little things.<br />Meaningful rituals.</h2></div><a class="text-link" href="/shop/">Discover the collection ↗</a></div><div class="product-grid">{products.map(product => <ProductCard product={product} />)}</div></div></section>
+<section class="journal-invite"><div class="content-wrap"><p class="eyebrow">05 / The journal</p><h2>For the moments<br />between the videos.</h2><p>Short reads, thoughtful questions, and a little room to reflect.</p><a class="text-link" href="/journal/">Take a moment to read ↗</a></div></section>

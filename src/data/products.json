@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Full Bhakti Kit",
+    "url": "https://arveendivine.com/product/full-bhakti-kit/",
+    "image": "/images/products/full-bhakti-kit.webp",
+    "slug": "full-bhakti-kit",
+    "description": "A collection of essentials for your devotional practice.",
+    "sourceImage": "https://arveendivine.com/wp-content/uploads/2026/07/IMG-20260709-WA0130.jpg-300x300.jpeg"
+  },
+  {
+    "name": "Tulsi Japa mala",
+    "url": "https://arveendivine.com/product/tulsi-japa-mala/",
+    "image": "/images/products/tulsi-japa-mala.webp",
+    "slug": "tulsi-japa-mala",
+    "description": "Prayer beads for moments of chanting and remembrance.",
+    "sourceImage": "https://arveendivine.com/wp-content/uploads/2026/06/file_000000004a24720bb222ef97bd0fc2d9-300x300.png"
+  },
+  {
+    "name": "Cow print chanting bag & sakshi mala",
+    "url": "https://arveendivine.com/product/cow-print-chanting-bag-sakshi-mala/",
+    "image": "/images/products/cow-print-chanting-bag-sakshi-mala.webp",
+    "slug": "cow-print-chanting-bag-sakshi-mala",
+    "description": "A printed chanting bag paired with a sakshi mala.",
+    "sourceImage": "https://arveendivine.com/wp-content/uploads/2026/06/file_00000000056071fa80151d8ff27dd9a7-300x300.png"
+  },
+  {
+    "name": "Bhagavad Gita",
+    "url": "https://arveendivine.com/product/bhagavad-gita/",
+    "image": "/images/products/bhagavad-gita.webp",
+    "slug": "bhagavad-gita",
+    "description": "Make a little space for reading and reflection.",
+    "sourceImage": "https://arveendivine.com/wp-content/uploads/2026/06/file_00000000c42c720797e31f35059c1737-300x300.png"
+  }
+]

@@ -4,6 +4,9 @@ import HeroPortrait from '../components/HeroPortrait.astro';
 import HeroCta from '../components/HeroCta.astro';
 import PeacockMark from '../components/PeacockMark.astro';
 import HeroAtmosphere from '../components/HeroAtmosphere.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import HomeSections from '../components/HomeSections.astro';
 ---
 <BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
   <div class="welcome-screen" aria-hidden="true">
@@ -12,18 +15,8 @@ import HeroAtmosphere from '../components/HeroAtmosphere.astro';
     <span>A moment of devotion.</span>
     <div class="welcome-line"></div>
   </div>
-  <header class="site-header">
-    <div class="header-inner">
-      <a href="#home" class="brand"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a>
-      <nav class="header-nav" aria-label="Primary navigation">
-        <a href="#home" aria-current="page">Home</a>
-        <a href="https://www.youtube.com/@arveenpoonia31/videos" target="_blank" rel="noopener noreferrer">Videos</a>
-        <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer">Yoga</a>
-        <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Divine Store</a>
-      </nav>
-    </div>
-  </header>
-  <main>
+  <SiteHeader />
+  <main id="main-content" tabindex="-1">
     <section class="hero" id="home" data-scene="arveen" aria-labelledby="hero-heading">
       <HeroAtmosphere />
       <div class="portrait-stage">
@@ -46,8 +39,8 @@ import HeroAtmosphere from '../components/HeroAtmosphere.astro';
           </div>
         </div>
         <div class="hero-actions">
-          <HeroCta href="https://www.youtube.com/@arveenpoonia31/videos" label="Explore my videos" />
-          <HeroCta href="https://www.youtube.com/@arveenpoonia31/about" label="My Journey" secondary />
+          <HeroCta href="/explore/" label="Explore my videos" />
+          <HeroCta href="/about/" label="My Journey" secondary />
         </div>
       </div>
       <div class="hero-footer">
@@ -59,22 +52,9 @@ import HeroAtmosphere from '../components/HeroAtmosphere.astro';
         </div>
       </div>
     </section>
-    <section class="explore-section" id="explore" aria-labelledby="explore-heading">
-      <p class="eyebrow">Small steps. Every day.</p>
-      <h2 id="explore-heading">Make a little room for what matters.</h2>
-      <div class="explore-links">
-        <a href="https://www.youtube.com/@arveenpoonia31/videos" target="_blank" rel="noopener noreferrer"><span class="explore-number">01 / WATCH</span><h3>A moment of perspective.</h3><p>Explore my videos on devotion and conscious living.</p><span class="explore-action">Visit my channel ↗</span></a>
-        <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer"><span class="explore-number">02 / PRACTICE</span><h3>Come back to yourself.</h3><p>Make space for movement, breath, and yoga.</p><span class="explore-action">Explore yoga ↗</span></a>
-        <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer"><span class="explore-number">03 / DISCOVER</span><h3>Devotion in the everyday.</h3><p>Find something meaningful at the Divine Store.</p><span class="explore-action">Visit the store ↗</span></a>
-      </div>
-    </section>
+    <HomeSections />
   </main>
-  <nav class="bottom-nav" aria-label="Mobile navigation">
-    <a href="#home" aria-current="page">Home</a>
-    <a href="https://www.youtube.com/@arveenpoonia31/videos" target="_blank" rel="noopener noreferrer">Videos</a>
-    <a href="https://forms.gle/6dmPZJowfUUC3jiZ7" target="_blank" rel="noopener noreferrer">Yoga</a>
-    <a href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Store</a>
-  </nav>
+  <SiteFooter />
 </BaseLayout>
 <script>
   import { initHeroScene } from '../scripts/hero-scene';

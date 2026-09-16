@@ -48,5 +48,29 @@ Leave it unset for preview deployments.
 - `astro.config.mjs`: static output, Tailwind, and sitemap configuration.
 
 Use the shared layout for future pages and supply a unique title and description.
-Add actual social images when the design is ready. Markdown articles can be
-added later; no example content or application state libraries are included.
+Add actual social images when the design is ready. Journal articles use Markdown;
+no application state library or CMS is required.
+
+## Pages and content editing
+
+The homepage leads to `/about/`, `/explore/`, `/yoga/`, `/shop/`, and `/journal/`.
+All pages share the existing ivory/sage design, desktop header, mobile dock and
+footer. Internal calls to action stay in the same tab; external destinations
+open in a new tab. The custom 404 page is always marked noindex.
+
+- **Videos:** edit `src/data/videos.json`. Store the matching optimized 480×270
+  thumbnail at `public/images/videos/<id>.webp`. Topic filters and search enhance
+  a static, fully readable list; watching opens the original YouTube video.
+- **Products:** edit `src/data/products.json`. Use actual product photos and exact
+  store URLs. `sourceImage` records provenance; the site serves local WebP assets.
+  Prices and checkout remain on the external store.
+- **Yoga:** update the details in `src/pages/yoga.astro` from the registration
+  form and change its checked date. Keep the current registration flow external.
+- **Journal:** add Markdown in `src/content/journal/` with `title`, `description`,
+  `category`, and `readTime` frontmatter. The filename becomes the URL slug.
+  `draft: true` excludes an article from both the listing and generated routes.
+  Two neutral website guides are included; personal reflections should be
+  provided or reviewed by Arveen before publication.
+
+Content provenance, launch review items, and design decisions are recorded in
+`docs/website-expansion.md`.

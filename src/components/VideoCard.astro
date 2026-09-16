@@ -1,0 +1,11 @@
+---
+interface Props { video: {id:string;title:string;category:string}; featured?:boolean; }
+const {video,featured=false}=Astro.props;
+---
+<article class:list={['video-card', {'video-card--featured':featured}]} data-video-card data-category={video.category} data-title={video.title.toLowerCase()}>
+  <a class="video-image" href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch ${video.title} on YouTube (opens in a new tab)`}>
+    <img src={`/images/videos/${video.id}.webp`} alt="" width="480" height="270" loading="lazy" decoding="async" />
+    <span class="play-mark" aria-hidden="true">▶</span>
+  </a>
+  <div class="video-copy"><p class="eyebrow">{video.category}</p><h3><a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer">{video.title}</a></h3><span class="small-note">Watch on YouTube ↗</span></div>
+</article>

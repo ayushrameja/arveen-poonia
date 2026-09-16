@@ -2,7 +2,7 @@
 interface Props { href: string; label: string; secondary?: boolean; }
 const { href, label, secondary = false } = Astro.props;
 ---
-<a class:list={['hero-cta', { 'hero-cta--secondary': secondary }]} href={href} target="_blank" rel="noopener noreferrer">
+<a class:list={['hero-cta', { 'hero-cta--secondary': secondary }]} href={href} target={href.startsWith('https://') ? '_blank' : undefined} rel={href.startsWith('https://') ? 'noopener noreferrer' : undefined}>
   <span class="cta-label"><span class="cta-label-first">{label}</span><span class="cta-label-echo" aria-hidden="true">{label}</span></span>
-  <span class="cta-arrow" aria-hidden="true">↗</span>
+
 </a>
