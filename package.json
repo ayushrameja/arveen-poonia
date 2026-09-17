@@ -9,12 +9,15 @@
     "test": "node --test tests/*.test.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "assets:portraits": "node scripts/generate-portraits.mjs",
-    "assets:ascii": "node scripts/generate-ascii.mjs && node scripts/generate-profile.mjs && node scripts/generate-radha-krishna.mjs"
+    "assets:portraits": "node scripts/generate-portraits.mjs && node scripts/generate-portrait-avif.mjs",
+    "assets:ascii": "node scripts/generate-ascii.mjs && node scripts/generate-profile.mjs && node scripts/generate-radha-krishna.mjs",
+    "perf:motion": "node scripts/profile-motion.mjs",
+    "perf:audit": "node scripts/audit-performance.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "astro": "^7.3.2"
+    "astro": "^7.3.2",
+    "locomotive-scroll": "^5.0.1"
   },
   "devEngines": {
     "runtime": {
@@ -30,6 +33,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4.3.3",
+    "lighthouse": "^13.4.1",
+    "puppeteer-core": "^25.11.0",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.3",

@@ -5,7 +5,7 @@ const links = [['/', 'Home'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/s
 ---
 <footer class="site-footer"><div class="content-wrap">
   <div class="footer-top"><div><a class="brand" href="/"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a><p>A little devotion. A little discipline.<br />A more conscious everyday life.</p></div>
-  <div class="footer-links"><a href="/about/">My Journey</a><a href="/journal/">Journal</a><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer">YouTube ↗</a><a href="mailto:arveenpoonia0101@gmail.com">Get in touch</a></div></div>
+  <div class="footer-links"><a href="/about/">My Journey</a><a href="/journal/">Journal</a><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer">YouTube</a><a href="mailto:arveenpoonia0101@gmail.com">Get in touch</a></div></div>
   <div class="footer-bottom"><span>© {new Date().getFullYear()} Arveen Poonia</span><span>Made with intention. Hare Krishna.</span></div>
 </div></footer>
 <nav class="bottom-nav" aria-label="Mobile navigation">{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>

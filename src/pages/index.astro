@@ -11,8 +11,14 @@ import HomeSections from '../components/HomeSections.astro';
 <BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
   <div class="welcome-screen" aria-hidden="true">
     <PeacockMark />
-    <p>Hare Krishna 🙏</p>
-    <span>A moment of devotion.</span>
+    <p class="welcome-title" aria-label="JAI SHREE KRISHNA">
+      {['JAI', 'SHREE', 'KRISHNA'].map((word, wordIndex) => (
+        <span class="welcome-word" aria-hidden="true">{Array.from(word).map((letter, letterIndex) => (
+          <span class="welcome-letter" style={`--letter-delay: ${(wordIndex === 0 ? 0 : wordIndex === 1 ? 3 : 8) * 45 + letterIndex * 45}ms`}>{letter}</span>
+        ))}</span>
+      ))}
+    </p>
+    <span class="welcome-caption">A moment of devotion.</span>
     <div class="welcome-line"></div>
   </div>
   <SiteHeader />
@@ -21,8 +27,6 @@ import HomeSections from '../components/HomeSections.astro';
       <HeroAtmosphere />
       <div class="portrait-stage">
       <div class="devotion-orbit" aria-hidden="true"><span></span></div>
-      <div class="hero-note hero-note--left" aria-hidden="true"><span class="note-index">ROOTED IN DEVOTION</span><span class="scene-note scene-note--divine">Where there is love,<br />there is the divine.</span><span class="scene-note scene-note--personal">A little stillness.<br />A little more presence.</span><i></i></div>
-      <div class="hero-note hero-note--right" aria-hidden="true"><span class="note-index">A DAILY REMINDER</span><span class="scene-note scene-note--divine">Radhe Radhe.<br />Hare Krishna.</span><span class="scene-note scene-note--personal">Breathe deeply.<br />Live with intention.</span><i></i></div>
       <HeroPortrait />
       </div>
       <div class="hero-copy">
@@ -44,7 +48,6 @@ import HomeSections from '../components/HomeSections.astro';
         </div>
       </div>
       <div class="hero-footer">
-        <a class="scroll-cue" href="#explore"><span>There’s more to the journey</span><span aria-hidden="true">↓</span></a>
         <div class="art-controls" hidden>
           <button class="art-pause" type="button" data-pause aria-label="Pause artwork animation" aria-pressed="false" title="Pause artwork animation">
             <svg viewBox="0 0 20 20" width="14" height="14" fill="none" aria-hidden="true"><path class="pause-bars" d="M7 5v10M13 5v10"/><path class="play-triangle" d="m7 4 8 6-8 6Z"/></svg>

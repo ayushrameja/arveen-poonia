@@ -28,3 +28,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Local performance traces and generated browser reports
+reports/performance/

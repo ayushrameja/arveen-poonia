@@ -18,7 +18,7 @@ pnpm check    # Astro and TypeScript diagnostics
 pnpm test     # Animation accessibility and lifecycle checks
 pnpm build    # Check and generate static HTML in dist/
 pnpm preview  # Preview the production build
-pnpm assets:portraits  # Encode the clear source portraits as responsive WebP files
+pnpm assets:portraits  # Encode the clear source portraits as responsive WebP + AVIF files
 ```
 
 ## SEO and deployment
@@ -74,3 +74,16 @@ open in a new tab. The custom 404 page is always marked noindex.
 
 Content provenance, launch review items, and design decisions are recorded in
 `docs/website-expansion.md`.
+
+## Performance
+
+See [the performance review](docs/performance.md) for measured before/after results,
+resource usage, targets, and limitations. To profile a running production preview:
+
+```sh
+pnpm perf:audit http://127.0.0.1:4323/ current
+pnpm perf:motion http://127.0.0.1:4323/ current 3
+```
+
+HTML reports, JSON measurements, screenshots, and Chrome traces are written to
+`reports/performance/`. Run audits sequentially for comparable results.

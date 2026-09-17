@@ -1,0 +1,90 @@
+---
+import HeroCta from './HeroCta.astro';
+
+const threads = [
+  { number: '01', title: 'Rooted in devotion', description: 'Bhakti, remembrance, and journeys to sacred places.' },
+  { number: '02', title: 'Returning to practice', description: 'Yoga, mindful routines, and a little space to breathe.' },
+  { number: '03', title: 'Present in the everyday', description: 'Family moments, shared stories, and a life lived with intention.' },
+];
+---
+<section class="section-block home-story" aria-labelledby="story-heading">
+  <div class="content-wrap">
+    <div class="home-story-grid">
+      <figure class="story-portrait">
+        <div class="story-image">
+          <span class="portrait-greeting">HARE KRISHNA</span>
+          <picture>
+            <source type="image/avif" srcset="/images/arveen-portrait-640.avif 640w, /images/arveen-portrait-960.avif 960w, /images/arveen-portrait-1280.avif 1280w" sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1050px) 44vw, 550px" />
+            <img src="/images/arveen-portrait-640.webp" alt="Arveen Poonia smiling in his lilac kurta" width="640" height="640" loading="lazy" decoding="async" />
+          </picture>
+        </div>
+        <figcaption class="portrait-caption">
+          <div><span class="portrait-name">Arveen Poonia</span><span class="portrait-note">Rooted in devotion. Open to discovery.</span></div>
+          <span class="portrait-flower" aria-hidden="true">✳</span>
+        </figcaption>
+      </figure>
+      <div class="story-copy">
+        <h2 id="story-heading">Devotion, woven<br /><span>into everyday life.</span></h2>
+        <p class="story-intro">Beyond the videos, there’s a simple thread: finding meaning in the things we do every day.</p>
+        <ol class="story-threads">
+          {threads.map(thread => (
+            <li><span class="thread-number" aria-hidden="true">{thread.number}</span><div><h3>{thread.title}</h3><p>{thread.description}</p></div></li>
+          ))}
+        </ol>
+        <div class="story-action"><HeroCta href="/about/" label="My Journey" /><span>A little more about the person<br />behind the stories.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-story { padding-block: 64px 72px; }
+  .story-kicker { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #d6dacb; padding-bottom: 18px; margin-bottom: 36px; }
+  .story-kicker .eyebrow { margin: 0; font-size: 12px; }
+  .story-kicker > span { color: #69745e; font-size: 10px; letter-spacing: .15em; }
+  .home-story-grid { display: grid; grid-template-columns: .95fr 1.05fr; align-items: stretch; gap: clamp(32px, 5vw, 72px); }
+  .story-portrait { margin: 0; max-width: none; display: flex; flex-direction: column; border: 1px solid #dce0d1; border-radius: 22px; background: #faf9f5; }
+  .story-image { position: relative; flex: 1; display: flex; align-items: end; isolation: isolate; overflow: hidden; min-height: 380px; }
+  .portrait-greeting { position: absolute; z-index: 1; top: 26px; left: 28px; color: #5e7058; font-size: 10px; letter-spacing: .16em; }
+  .story-image picture { position: absolute; bottom: 0; display: block; width: 100%; height: 100%; }
+  .story-image img { width: 100%; height: 100%; object-fit: contain; object-position: bottom; }
+  .portrait-caption { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 25px 28px; background: #203e35; color: #faf9f0; }
+  .portrait-name { display: block; font-size: 22px; letter-spacing: -.035em; }
+  .portrait-note { display: block; margin-top: 7px; font-size: 12px; line-height: 1.6; color: #c4d0bc; }
+  .portrait-flower { font-size: 38px; color: #cfbd8a; line-height: 1; }
+  .story-copy { display: flex; flex-direction: column; align-items: start; padding-block: 5px; }
+  .story-copy h2 { font-size: clamp(36px, 4vw, 56px); line-height: 1.09; letter-spacing: -.055em; }
+  .story-copy h2 span { color: #778261; }
+  .story-copy .story-intro { margin: 20px 0 26px; font-size: 16px; line-height: 1.75; max-width: 470px; }
+  .story-threads { list-style: none; width: 100%; padding: 0; margin: 0 0 28px; }
+  .story-threads li { display: grid; grid-template-columns: 28px 1fr; gap: 16px; border-top: 1px solid #d6dacb; padding-block: 18px; }
+  .story-threads li:last-child { border-bottom: 1px solid #d6dacb; }
+  .thread-number { color: #8a7850; font-size: 11px; padding-top: 4px; }
+  .story-threads h3 { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: -.025em; }
+  .story-threads p { margin: 6px 0 0; font-size: 13px; line-height: 1.65; }
+  .story-action { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: auto; }
+  .story-action :global(.hero-cta) { margin-top: 0; }
+  .story-action > span { color: #657060; font-size: 12px; line-height: 1.65; }
+  @media (min-width: 701px) and (max-width: 1050px) {
+    .story-image { min-height: 0; }
+    .portrait-caption { padding: 22px; }
+    .portrait-note { max-width: 190px; }
+    .story-copy h2 { font-size: clamp(32px, 4vw, 42px); }
+  }
+  @media (max-width: 700px) {
+    .home-story { padding-block: 40px 48px; }
+    .story-kicker { margin-bottom: 26px; }
+    .story-kicker > span { display: none; }
+    .home-story-grid { grid-template-columns: 1fr; gap: 30px; }
+    .story-portrait { width: 100%; }
+    .story-image { min-height: 0; }
+    .story-image picture { position: relative; height: auto; max-width: 430px; margin-inline: auto; }
+    .portrait-caption { padding: 22px; }
+    .portrait-greeting { top: 22px; left: 22px; }
+    .story-copy { padding: 0; }
+    .story-copy h2 { font-size: clamp(32px, 8.5vw, 48px); }
+    .story-copy .story-intro { font-size: 15px; margin-block: 18px 24px; }
+    .story-threads { margin-bottom: 24px; }
+    .story-threads p { font-size: 13px; }
+  }
+</style>

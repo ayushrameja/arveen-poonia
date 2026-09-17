@@ -1,0 +1,142 @@
+---
+import HeroCta from './HeroCta.astro';
+---
+<section class="section-block home-practice" aria-labelledby="practice-heading">
+  <div class="content-wrap practice-layout">
+    <div class="practice-copy">
+      <p class="eyebrow">MAKE SPACE FOR PRACTICE</p>
+      <h2 id="practice-heading">A little movement.<br /><span>A moment to return.</span></h2>
+      <p class="practice-description">Bring yoga into your everyday rhythm. Join Arveen for online classes, and make a little room for movement, stillness, and yourself.</p>
+      <div class="practice-details">
+        <div><span>THE SPACE</span><p>Online, from home</p></div>
+        <div><span>THE PRACTICE</span><p>Movement & presence</p></div>
+      </div>
+      <div class="practice-action"><HeroCta href="/yoga/" label="Explore yoga classes" /><span>Find a rhythm that feels like you.</span></div>
+    </div>
+    <div class="ritual-card" data-practice-ritual>
+      <div class="ritual-top"><span>A MOMENT FOR YOU</span><span class="ritual-star" aria-hidden="true">✳</span></div>
+      <div class="ritual-art" aria-hidden="true">
+        <div class="ritual-ring ritual-ring--outer"></div><div class="ritual-ring ritual-ring--middle"></div><div class="ritual-ring ritual-ring--inner"></div>
+        <div class="ritual-center">
+          <div class="ritual-static">Pause.<br />Breathe.<br />Begin.</div>
+          <div class="ritual-prompt ritual-prompt--pause"><strong>Pause.</strong><span>Let the day settle.</span></div>
+          <div class="ritual-prompt ritual-prompt--breathe"><strong>Breathe.</strong><span>Make a little space.</span></div>
+          <div class="ritual-prompt ritual-prompt--begin"><strong>Begin.</strong><span>Return to yourself.</span></div>
+        </div>
+      </div>
+      <p class="sr-only">Pause. Let the day settle. Breathe. Make a little space. Begin. Return to yourself.</p>
+      <div class="ritual-steps" aria-hidden="true"><span class="ritual-step--pause">01 <b>Pause</b></span><span class="ritual-step--breathe">02 <b>Breathe</b></span><span class="ritual-step--begin">03 <b>Begin</b></span></div>
+      <div class="ritual-footer"><span>A little stillness goes a long way.</span><button type="button" class="ritual-toggle" aria-label="Pause practice animation" aria-pressed="false" hidden><svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path class="ritual-pause-icon" d="M7 4v12M13 4v12" /><path class="ritual-play-icon" d="m6 4 9 6-9 6Z" /></svg></button></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-practice { background: #eeeee4; border-block: 1px solid #dddfd1; padding-block: 72px; }
+  .practice-layout { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .practice-copy .eyebrow { font-size: 10px; letter-spacing: .15em; margin-bottom: 22px; }
+  .practice-copy h2 { font-size: clamp(36px, 4vw, 56px); line-height: 1.09; letter-spacing: -.055em; }
+  .practice-copy h2 span { color: #778261; }
+  .practice-description { max-width: 480px; margin: 22px 0 30px; color: #59675b; font-size: 16px; line-height: 1.8; }
+  .practice-details { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-block: 22px; margin-bottom: 30px; border-block: 1px solid #cbd1c1; }
+  .practice-details span { font-size: 9px; letter-spacing: .13em; color: #65745c; }
+  .practice-details p { font-size: 16px; margin: 9px 0 0; letter-spacing: -.02em; }
+  .practice-action { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .practice-action > span { color: #657060; font-size: 12px; }
+  .ritual-card { color: #f5f4e9; background: #203e35; border: 1px solid #315044; border-radius: 22px; padding: 26px 30px 16px; overflow: hidden; }
+  .ritual-top { display: flex; justify-content: space-between; align-items: center; color: #c4d0bc; font-size: 9px; letter-spacing: .15em; }
+  .ritual-star { color: #cfbd8a; font-size: 28px; line-height: 1; }
+  .ritual-art { position: relative; width: min(100%, 360px); aspect-ratio: 1; margin: 12px auto 18px; display: grid; place-items: center; }
+  .ritual-ring { position: absolute; border: 1px solid #b9c69b55; border-radius: 50%; inset: 4%; }
+  .ritual-ring--middle { inset: 10%; border-color: #c6ceab70; }
+  .ritual-ring--inner { inset: 17%; background: #91a17c0b; border-color: #cfbd8a80; }
+  .ritual-ring--outer::before { content: ''; position: absolute; width: 6px; height: 6px; background: #cfbd8a; border-radius: 50%; top: 14%; left: 14%; }
+  .ritual-center { position: relative; display: grid; place-items: center; text-align: center; width: 100%; }
+  .ritual-static { font-size: clamp(30px, 3vw, 42px); letter-spacing: -.045em; line-height: 1.25; }
+  .ritual-prompt { display: none; grid-area: 1 / 1; }
+  .ritual-prompt strong { display: block; font-weight: 400; font-size: clamp(40px, 4.3vw, 62px); line-height: 1.1; letter-spacing: -.055em; }
+  .ritual-prompt span { display: block; color: #c4d0bc; margin-top: 13px; font-size: 12px; }
+  .ritual-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .ritual-steps > span { display: flex; align-items: center; gap: 10px; border-top: 1px solid #809477; padding-top: 16px; color: #cfbd8a; font-size: 10px; }
+  .ritual-steps b { font-size: 12px; font-weight: 400; color: #f5f4e9; }
+  .ritual-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 52px; margin-top: 12px; }
+  .ritual-footer > span { color: #c4d0bc; font-size: 11px; }
+  .ritual-toggle { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid #80947780; border-radius: 50%; color: #f5f4e9; background: transparent; cursor: pointer; }
+  .ritual-toggle:hover { background: #ffffff0d; }
+  .ritual-toggle:focus-visible { outline-color: #cfbd8a; }
+  .ritual-toggle svg { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .ritual-play-icon, .ritual-toggle[aria-pressed='true'] .ritual-pause-icon { display: none; }
+  .ritual-toggle[aria-pressed='true'] .ritual-play-icon { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-enhanced] .ritual-static { display: none; }
+    [data-enhanced] .ritual-prompt { display: block; opacity: 0; }
+    [data-enhanced] .ritual-ring { animation: ritual-expand 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-prompt--pause { animation: ritual-pause 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-prompt--breathe { animation: ritual-breathe 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-prompt--begin { animation: ritual-begin 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-step--pause { animation: ritual-pause 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-step--breathe { animation: ritual-breathe 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-step--begin { animation: ritual-begin 15s ease-in-out infinite; }
+    [data-enhanced] .ritual-steps > span { --quiet-opacity: .4; }
+    [data-enhanced]:not([data-running]) .ritual-ring,
+    [data-enhanced]:not([data-running]) .ritual-prompt,
+    [data-enhanced]:not([data-running]) .ritual-steps > span { animation-play-state: paused; }
+  }
+  @keyframes ritual-expand { 0%, 28%, 100% { transform: scale(.88); } 60%, 66% { transform: scale(1.04); } }
+  @keyframes ritual-pause { 0%, 28%, 100% { opacity: 1; } 33%, 95% { opacity: var(--quiet-opacity, 0); } }
+  @keyframes ritual-breathe { 0%, 28%, 66%, 100% { opacity: var(--quiet-opacity, 0); } 33%, 61% { opacity: 1; } }
+  @keyframes ritual-begin { 0%, 61%, 100% { opacity: var(--quiet-opacity, 0); } 66%, 95% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .ritual-toggle { display: none; } }
+  @media (min-width: 701px) and (max-width: 1050px) {
+    .practice-layout { gap: 32px; }
+    .practice-copy h2 { font-size: clamp(30px, 3.8vw, 42px); }
+    .ritual-card { padding-inline: 22px; }
+    .practice-details { gap: 14px; }
+    .practice-details p { font-size: 14px; }
+  }
+  @media (max-width: 700px) {
+    .home-practice { padding-block: 44px; }
+    .practice-layout { grid-template-columns: 1fr; gap: 32px; }
+    .practice-copy h2 { font-size: clamp(30px, 8vw, 48px); }
+    .practice-description { font-size: 15px; margin-block: 18px 24px; }
+    .practice-details { margin-bottom: 24px; gap: 16px; }
+    .practice-details p { font-size: 14px; }
+    .ritual-card { padding: 22px 22px 12px; }
+    .ritual-prompt strong { font-size: 46px; }
+    .ritual-prompt span { font-size: 11px; }
+  }
+</style>
+
+<script>
+  const card = document.querySelector<HTMLElement>('[data-practice-ritual]');
+  if (card) {
+    const toggle = card.querySelector<HTMLButtonElement>('.ritual-toggle')!;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const controller = new AbortController();
+    const { signal } = controller;
+    let inView = false;
+    let paused = false;
+    const sync = () => {
+      card.toggleAttribute('data-running', inView && !paused && !document.hidden && !reducedMotion.matches);
+      toggle.hidden = reducedMotion.matches;
+    };
+    card.setAttribute('data-enhanced', '');
+    const observer = new IntersectionObserver(entries => {
+      inView = entries[0].isIntersecting;
+      sync();
+    }, { threshold: 0.15 });
+    observer.observe(card);
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.setAttribute('aria-label', `${paused ? 'Resume' : 'Pause'} practice animation`);
+      sync();
+    }, { signal });
+    reducedMotion.addEventListener('change', sync, { signal });
+    document.addEventListener('visibilitychange', sync, { signal });
+    sync();
+    const dispose = () => { observer.disconnect(); controller.abort(); card.removeAttribute('data-enhanced'); card.removeAttribute('data-running'); toggle.hidden = true; };
+    document.addEventListener('astro:before-swap', dispose, { once: true, signal });
+    if (import.meta.hot) import.meta.hot.dispose(dispose);
+  }
+</script>

@@ -3,6 +3,6 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import { articles } from '../../data/journal';
 ---
 <PageLayout title="Journal" eyebrow="A little room to reflect" heading="Slow down. Stay curious." description="Short guides for finding your way, making space for practice, and bringing a little intention to the everyday.">
-<section class="content-wrap journal-list" aria-label="Journal articles">{articles.map((article,index)=><a class="journal-row" href={`/journal/${article.slug}/`}><span class="journal-number">0{index+1}</span><div><p class="eyebrow">{article.frontmatter.category} · {article.frontmatter.readTime}</p><h2>{article.frontmatter.title}</h2><p>{article.frontmatter.description}</p></div><span class="journal-arrow" aria-hidden="true">↗</span></a>)}</section>
-<div class="content-wrap journal-closing"><p class="eyebrow">Words into practice</p><p>Sometimes the next step is simply making time for one.</p><a class="text-link" href="/explore/">Find something to watch ↗</a></div>
+<section class="content-wrap journal-list" aria-label="Journal articles">{articles.map((article,index)=><a class="journal-row" href={`/journal/${article.slug}/`}><span class="journal-number">0{index+1}</span><div><p class="eyebrow">{article.frontmatter.category} · {article.frontmatter.readTime}</p><h2>{article.frontmatter.title}</h2><p>{article.frontmatter.description}</p></div></a>)}</section>
+<div class="content-wrap journal-closing"><p class="eyebrow">Words into practice</p><p>Sometimes the next step is simply making time for one.</p><a class="text-link" href="/explore/">Find something to watch</a></div>
 </PageLayout>
