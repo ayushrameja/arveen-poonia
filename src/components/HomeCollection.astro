@@ -1,0 +1,85 @@
+---
+import HeroCta from './HeroCta.astro';
+import products from '../data/products.json';
+const rituals = ['For your daily rituals', 'For quiet remembrance', 'For your chanting practice', 'For a moment of reflection'];
+---
+<section class="section-block home-collection" aria-labelledby="collection-heading">
+  <div class="content-wrap">
+    <div class="collection-heading">
+      <div><h2 id="collection-heading">Little things.<br /><span>Meaningful rituals.</span></h2></div>
+      <div class="collection-intro"><HeroCta href="/shop/" label="Discover the collection" secondary /></div>
+    </div>
+    <div class="collection-grid">
+      {products.map((product, index) => (
+        <a class:list={['product-card', 'collection-card', { 'collection-card--featured': index === 0 }]} href={product.url} target="_blank" rel="noopener noreferrer">
+          <div class="collection-label"><span>{String(index + 1).padStart(2, '0')}</span><span>{rituals[index]}</span></div>
+          <div class="product-image"><img src={product.image} alt={product.name} width="300" height="300" loading="lazy" decoding="async" /></div>
+          <div class="collection-card-copy"><h3>{product.name}</h3><p>{product.description}</p></div>
+          <div class="collection-card-action"><span>Explore<span class="sr-only"> (opens in a new tab)</span></span><span class="collection-arrow" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6 18 18 6M6 6h12v12" /></svg></span></div>
+        </a>
+      ))}
+    </div>
+    <div class="collection-note"><span class="collection-note-mark" aria-hidden="true">✳</span><p>A little devotion, in the things you keep close.</p><span>Explore & shop on Arveen Divine <span aria-hidden="true">↗</span></span></div>
+  </div>
+</section>
+
+<style>
+  .home-collection { padding-block: 72px 52px; }
+  .collection-heading { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: end; margin-bottom: 36px; }
+  .collection-heading .eyebrow { font-size: 10px; letter-spacing: .15em; margin-bottom: 18px; }
+  .collection-heading h2 { font-size: clamp(36px, 4vw, 56px); line-height: 1.09; letter-spacing: -.055em; }
+  .collection-heading h2 span { color: #778261; }
+  .collection-intro { max-width: 390px; justify-self: end; }
+  .collection-intro p { margin: 0 0 20px; font-size: 15px; line-height: 1.8; color: #59675b; }
+  .collection-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  .collection-card { display: flex; flex-direction: column; min-width: 0; padding: 16px; border: 1px solid #dde1d3; border-radius: 20px; background: #f0f1e9; transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+  .collection-card--featured { background: #203e35; color: #faf9f0; border-color: #203e35; }
+  .collection-label { display: flex; align-items: center; gap: 10px; min-height: 30px; margin-bottom: 12px; font-size: 10px; line-height: 1.5; color: #5e7058; }
+  .collection-label > span:first-child { color: #8a7850; font-size: 9px; }
+  .collection-card--featured .collection-label { color: #c4d0bc; }
+  .collection-card--featured .collection-label > span:first-child { color: #cfbd8a; }
+  .collection-card .product-image { border-radius: 11px; background: #faf9f5; flex-shrink: 0; }
+  .collection-card .product-image img { display: block; }
+  .collection-card-copy { padding: 0 4px; }
+  .collection-card h3 { font-size: 19px; line-height: 1.35; min-height: 2.7em; margin: 20px 0 10px; font-weight: 500; letter-spacing: -.03em; }
+  .collection-card p { margin: 0 0 24px; font-size: 13px; line-height: 1.75; color: #59675b; }
+  .collection-card--featured p { color: #c4d0bc; }
+  .collection-card-action { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding: 14px 4px 0; border-top: 1px solid #cbd1c1; font-size: 11px; line-height: 1.5; }
+  .collection-card--featured .collection-card-action { border-color: #80947780; }
+  .collection-arrow { width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center; border: 1px solid #cbd1c1; border-radius: 50%; transition: transform .3s ease, background-color .3s ease; }
+  .collection-arrow svg { stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .collection-card--featured .collection-arrow { border-color: #80947780; color: #cfbd8a; }
+  .collection-note { display: flex; align-items: center; gap: 12px; margin-top: 28px; color: #657060; }
+  .collection-note-mark { font-size: 25px; color: #8a7850; }
+  .collection-note p { margin: 0; font-size: 12px; line-height: 1.7; }
+  .collection-note > span:last-child { margin-left: auto; font-size: 11px; }
+  .collection-card:focus-visible { outline: 2px solid #326f65; outline-offset: 5px; }
+  @media (hover: hover) {
+    .collection-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px #203c3610; border-color: #acb99f; }
+    .collection-card:hover .collection-arrow { transform: rotate(45deg); background: #dde4d5; }
+    .collection-card--featured:hover .collection-arrow { background: #315448; }
+  }
+  @media (max-width: 1050px) {
+    .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .collection-card h3 { min-height: 2.7em; }
+  }
+  @media (max-width: 700px) {
+    .home-collection { padding-block: 44px 36px; }
+    .collection-heading { grid-template-columns: 1fr; gap: 22px; margin-bottom: 28px; }
+    .collection-heading h2 { font-size: clamp(34px, 8.5vw, 48px); }
+    .collection-intro { justify-self: start; max-width: 460px; }
+    .collection-note { flex-wrap: wrap; gap: 8px 10px; }
+    .collection-note > span:last-child { width: 100%; margin-left: 30px; }
+  }
+  @media (max-width: 540px) {
+    .collection-grid { grid-template-columns: 1fr; gap: 20px; }
+    .collection-card { padding: 18px; }
+    .collection-card h3 { min-height: 0; font-size: 22px; }
+    .collection-card p { font-size: 14px; margin-bottom: 22px; }
+    .collection-label { font-size: 11px; }
+    .collection-card-action { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .collection-card:hover, .collection-card:hover .collection-arrow, .collection-card:hover img { transform: none; }
+  }
+</style>

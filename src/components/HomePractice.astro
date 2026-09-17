@@ -32,17 +32,17 @@ import HeroCta from './HeroCta.astro';
 </section>
 
 <style>
-  .home-practice { background: #eeeee4; border-block: 1px solid #dddfd1; padding-block: 72px; }
+  .home-practice { background: var(--closing-paper, #eeeee4); border-block: 1px solid var(--closing-line, #dddfd1); padding-block: 72px; }
   .practice-layout { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
   .practice-copy .eyebrow { font-size: 10px; letter-spacing: .15em; margin-bottom: 22px; }
   .practice-copy h2 { font-size: clamp(36px, 4vw, 56px); line-height: 1.09; letter-spacing: -.055em; }
-  .practice-copy h2 span { color: #778261; }
-  .practice-description { max-width: 480px; margin: 22px 0 30px; color: #59675b; font-size: 16px; line-height: 1.8; }
-  .practice-details { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-block: 22px; margin-bottom: 30px; border-block: 1px solid #cbd1c1; }
-  .practice-details span { font-size: 9px; letter-spacing: .13em; color: #65745c; }
+  .practice-copy h2 span { color: var(--closing-accent, #778261); }
+  .practice-description { max-width: 480px; margin: 22px 0 30px; color: var(--closing-muted, #59675b); font-size: 16px; line-height: 1.8; }
+  .practice-details { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-block: 22px; margin-bottom: 30px; border-block: 1px solid var(--closing-line, #cbd1c1); }
+  .practice-details span { font-size: 9px; letter-spacing: .13em; color: var(--closing-muted, #65745c); }
   .practice-details p { font-size: 16px; margin: 9px 0 0; letter-spacing: -.02em; }
   .practice-action { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
-  .practice-action > span { color: #657060; font-size: 12px; }
+  .practice-action > span { color: var(--closing-muted, #657060); font-size: 12px; }
   .ritual-card { color: #f5f4e9; background: #203e35; border: 1px solid #315044; border-radius: 22px; padding: 26px 30px 16px; overflow: hidden; }
   .ritual-top { display: flex; justify-content: space-between; align-items: center; color: #c4d0bc; font-size: 9px; letter-spacing: .15em; }
   .ritual-star { color: #cfbd8a; font-size: 28px; line-height: 1; }

@@ -7,6 +7,7 @@ import HeroAtmosphere from '../components/HeroAtmosphere.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import HomeSections from '../components/HomeSections.astro';
+import '../styles/closing-tone.css';
 ---
 <BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
   <div class="welcome-screen" aria-hidden="true">
@@ -61,6 +62,8 @@ import HomeSections from '../components/HomeSections.astro';
 </BaseLayout>
 <script>
   import { initHeroScene } from '../scripts/hero-scene';
+  import { initClosingTone } from '../scripts/closing-tone';
   const hero = document.querySelector<HTMLElement>('.hero');
   if (hero) initHeroScene(hero);
+  initClosingTone();
 </script>

@@ -1,0 +1,138 @@
+/* One shared canvas coordinates the saffron and green chapters. */
+.home-tone-enabled {
+  --closing-paper: #faf9f5;
+  --closing-ink: #203c36;
+  --closing-muted: #637060;
+  --closing-accent: #778261;
+  --closing-line: #e0e5d8;
+  --closing-nav: #e9eee3;
+  --closing-duration: 700ms;
+  background-color: var(--closing-paper);
+  color: var(--closing-ink);
+}
+.home-tone-enabled.home-saffron {
+  --closing-paper: #f4cd72;
+  --closing-ink: #3e301b;
+  --closing-muted: #645032;
+  --closing-accent: #80501d;
+  --closing-line: #c69a49;
+  --closing-nav: #e9b950;
+}
+.home-tone-enabled.home-evening {
+  --closing-paper: #203e35;
+  --closing-ink: #faf9f0;
+  --closing-muted: #c4d0bc;
+  --closing-accent: #dfc993;
+  --closing-line: #536c5d;
+  --closing-nav: #38574a;
+}
+.home-tone-enabled .journal-invite,
+.home-tone-enabled .site-footer,
+.home-tone-enabled .site-header,
+.home-tone-enabled .bottom-nav {
+  background-color: var(--closing-paper);
+  color: var(--closing-ink);
+  border-color: var(--closing-line);
+}
+/* The visible tail of the hero shares the page's canvas during transitions. */
+.home-tone-enabled .hero {
+  background-color: var(--closing-paper);
+  color: var(--closing-ink);
+}
+.home-tone-enabled .watch-section {
+  background-color: var(--closing-paper);
+  border-color: var(--closing-line);
+}
+.home-tone-enabled .watch-heading h2 > span,
+.home-tone-enabled .practice-copy .eyebrow {
+  color: var(--closing-accent);
+}
+.home-tone-enabled .story-copy p:not(.eyebrow),
+.home-tone-enabled .watch-next .eyebrow {
+  color: var(--closing-muted);
+}
+.home-tone-enabled .watch-next .video-card {
+  border-color: var(--closing-line);
+}
+.home-saffron .watch-next .video-card:hover,
+.home-evening .watch-next .video-card:hover {
+  background-color: color-mix(in srgb, var(--closing-paper), white 24%);
+}
+.home-evening :is(.story-action, .practice-action) .hero-cta {
+  background-color: #faf9f0;
+  border-color: #faf9f0;
+  color: #203e35;
+}
+.home-evening :is(.story-action, .practice-action) .hero-cta::before {
+  background-color: #dfc993;
+}
+.home-evening :is(.watch-section, .home-story, .home-practice) a:focus-visible {
+  outline-color: #dfc993;
+}
+.home-tone-enabled .journal-invite {
+  padding-block: clamp(90px, 12vw, 170px);
+  border-top-color: transparent;
+}
+.home-tone-enabled .journal-invite h2 {
+  font-size: clamp(38px, 5.4vw, 76px);
+  line-height: 1.08;
+  letter-spacing: -.055em;
+}
+.home-tone-enabled .journal-invite .eyebrow,
+:root.home-tone-enabled .home-collection .collection-heading h2 span {
+  color: var(--closing-accent);
+}
+.home-tone-enabled .journal-invite p:not(.eyebrow),
+.home-tone-enabled .footer-top p,
+.home-tone-enabled .footer-bottom,
+:root.home-tone-enabled .home-collection .collection-note,
+.home-tone-enabled .header-nav a,
+.home-tone-enabled .bottom-nav a {
+  color: var(--closing-muted);
+  border-color: var(--closing-line);
+}
+.home-tone-enabled .header-nav a[aria-current],
+.home-tone-enabled .header-nav a:hover,
+.home-tone-enabled .bottom-nav a[aria-current],
+.home-tone-enabled .bottom-nav a:hover {
+  color: var(--closing-ink);
+  background-color: var(--closing-nav);
+}
+.home-tone-enabled .collection-intro .hero-cta--secondary {
+  color: var(--closing-ink);
+  border-color: var(--closing-line);
+}
+/* Product cards retain their own paper and ink as the canvas changes. */
+.home-tone-enabled .collection-card:not(.collection-card--featured) {
+  color: #203c36;
+}
+.home-tone-enabled.home-evening .collection-intro .hero-cta--secondary:hover {
+  background-color: var(--closing-nav);
+}
+.home-tone-enabled .journal-invite .text-link {
+  color: var(--closing-ink);
+  text-decoration-color: var(--closing-accent);
+}
+.home-tone-enabled .journal-invite .text-link:hover {
+  color: var(--closing-accent);
+}
+.home-evening :is(.journal-invite, .site-footer, .site-header, .bottom-nav, .home-collection) a:focus-visible {
+  outline-color: #dfc993;
+}
+.home-tone-enabled,
+.home-tone-enabled :is(.hero, .journal-invite, .site-footer, .site-header, .bottom-nav,
+  .watch-section, .home-practice, .watch-heading h2 > span,
+  .watch-next .eyebrow, .story-copy p, .story-copy h2 span, .thread-number,
+  .story-threads li, .story-action > span, .practice-copy h2 span,
+  .practice-copy .eyebrow, .practice-description, .practice-details,
+  .practice-details span, .practice-action > span,
+  .journal-invite .eyebrow, .journal-invite p, .journal-invite .text-link,
+  .footer-top p, .footer-bottom, .collection-heading h2 span, .collection-note,
+  .header-nav a, .bottom-nav a, .collection-intro .hero-cta--secondary) {
+  transition: background-color var(--closing-duration) ease,
+    color var(--closing-duration) ease, border-color var(--closing-duration) ease,
+    text-decoration-color var(--closing-duration) ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-tone-enabled { --closing-duration: 0ms; }
+}
