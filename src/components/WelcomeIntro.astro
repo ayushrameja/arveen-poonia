@@ -1,0 +1,27 @@
+---
+import PeacockMark from './PeacockMark.astro';
+import '../styles/welcome-intro.css';
+---
+<script is:inline>
+  // Runs before the first paint; a failed module can never strand the visitor.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash) {
+    document.documentElement.classList.add('intro-active');
+    window.setTimeout(() => {
+      if (document.documentElement.classList.contains('intro-active')) {
+        document.documentElement.classList.remove('intro-active');
+        document.dispatchEvent(new Event('intro:timeout'));
+      }
+    }, 12000);
+  }
+</script>
+<div class="welcome-screen" role="dialog" aria-label="Welcome to Arveen Poonia" aria-modal="true">
+  <div class="intro-canvas"></div>
+  <div class="intro-devotion">
+    <p class="intro-blessing"><span>JAI SHREE KRISHNA</span><span class="intro-feather"><PeacockMark /></span></p>
+    <p class="intro-prabhu">PRABHU
+      <span class="intro-hands" role="img" aria-label="Namaste">🙏</span>
+    </p>
+  </div>
+  <p class="intro-hello">Haaayee <span class="intro-wave" role="img" aria-label="Waving hand">👋</span> <span class="intro-dash">—</span> I’m</p>
+  <p class="intro-name" aria-hidden="true">Arveen Poonia</p>
+</div>

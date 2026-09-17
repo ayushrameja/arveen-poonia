@@ -49,18 +49,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid #326f65; outline-offs
   .hero-cta--secondary:hover { background: #edf1e8; border-color: #9bad9d; }
 }
 .hero-cta:active { transform: translateY(0); box-shadow: none; }
-/* The intro dissolves in place; its CSS exit also works without JavaScript. */
-.welcome-screen { position: fixed; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 24px; background: #faf9f5; pointer-events: none; animation: welcome-exit .55s ease 1.85s both; }
-.welcome-screen > svg { width: 35px; height: 44px; color: #38675c; }
-.welcome-title { display: flex; flex-wrap: wrap; justify-content: center; gap: .12em .28em; margin: 0; max-width: 1100px; text-align: center; font-size: clamp(40px, 7.8vw, 112px); font-weight: 700; line-height: 1.08; letter-spacing: -.065em; }
-.welcome-word { display: inline-flex; overflow: hidden; padding: .1em .06em; }
-.welcome-letter { display: inline-block; animation: welcome-letter .8s cubic-bezier(.22,1,.36,1) var(--letter-delay) both; }
-.welcome-caption { color: #69726a; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; animation: welcome-caption .65s ease .7s both; }
-.welcome-line { width: 90px; height: 2px; background: #b8c5bb; transform-origin: left; animation: welcome-progress 1.7s cubic-bezier(.22,1,.36,1) both; }
-@keyframes welcome-exit { to { opacity: 0; visibility: hidden; } }
-@keyframes welcome-letter { from { opacity: 0; transform: translateY(115%) rotate(6deg); } to { opacity: 1; transform: none; } }
-@keyframes welcome-caption { from { opacity: 0; } to { opacity: 1; } }
-@keyframes welcome-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .hero-cta { position: relative; overflow: hidden; isolation: isolate; }
 .hero-cta::before { content: ''; position: absolute; z-index: -1; inset: -100% -20%; border-radius: 50%; background: #477660; transform: translateY(80%) scale(.6); transition: transform .55s cubic-bezier(.22,1,.36,1); }
 .hero-cta--secondary::before { background: #234e43; }

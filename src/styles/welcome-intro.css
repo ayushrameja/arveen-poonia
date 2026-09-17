@@ -1,0 +1,148 @@
+.welcome-screen {
+  display: none;
+}
+.intro-active,
+.intro-active body {
+  overflow: hidden;
+}
+.intro-active .welcome-screen {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  color: #203c36;
+}
+.intro-canvas {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+}
+.intro-devotion {
+  opacity: 0;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+.intro-blessing,
+.intro-prabhu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-size: clamp(26px, 6.7vw, 110px);
+  line-height: 1.1;
+  letter-spacing: -0.065em;
+  font-weight: 700;
+}
+.intro-blessing {
+  gap: 0.15em;
+  white-space: nowrap;
+}
+.intro-prabhu {
+  margin-top: 0.12em;
+  gap: 0.12em;
+}
+.intro-feather {
+  display: inline-flex;
+}
+.intro-feather svg {
+  width: 0.8em;
+  height: 1.2em;
+}
+.intro-hands {
+  display: inline-block;
+  font-size: 0.95em;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+.intro-hello {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  font-size: clamp(28px, 4.6vw, 70px);
+  letter-spacing: -0.055em;
+  opacity: 0;
+}
+.intro-wave {
+  display: inline-block;
+  transform-origin: 70% 80%;
+}
+.intro-blue .intro-wave {
+  animation: hello-wave 0.7s ease-in-out 0.075s 2;
+}
+.intro-dash {
+  margin-inline: 0.12em;
+}
+.intro-name {
+  position: absolute;
+  bottom: max(65px, 7vh);
+  left: 50%;
+  translate: -50% 0;
+  width: max-content;
+  margin: 0;
+  font-size: 13.15vw;
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+  white-space: nowrap;
+  opacity: 0;
+  transform-origin: top left;
+}
+.intro-active #hero-heading {
+  visibility: hidden;
+}
+@keyframes hello-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(20deg);
+  }
+  40%,
+  80% {
+    transform: rotate(-12deg);
+  }
+}
+@media (max-width: 600px) {
+  .intro-devotion {
+    padding: 14px;
+  }
+  .intro-blessing {
+    font-size: 6.5vw;
+  }
+  .intro-prabhu {
+    font-size: 11vw;
+    margin-top: 0.3em;
+  }
+  .intro-hello {
+    top: 37%;
+  }
+  .intro-name {
+    bottom: 15vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-active .welcome-screen {
+    display: none;
+  }
+  .intro-active #hero-heading {
+    visibility: visible;
+  }
+}
+[data-hero-name] {
+  display: inline-block;
+}
+
+.intro-hello,
+.intro-name {
+  color: #203c36;
+}

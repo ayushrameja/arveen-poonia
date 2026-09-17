@@ -2,10 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { initHeroScene } from '../src/scripts/hero-scene.ts';
 
-function fixture(t, { reduced = false, frameDecodes = [Promise.resolve(), Promise.resolve()] } = {}) {
+function fixture(t, { reduced = false, intro = false, frameDecodes = [Promise.resolve(), Promise.resolve()] } = {}) {
   t.mock.timers.enable({ apis: ['setTimeout'] });
   const document = new EventTarget();
   document.hidden = false;
+  document.documentElement = { classList: { contains: name => name === 'intro-active' && intro } };
   const media = new EventTarget();
   media.matches = reduced;
   let observation;
@@ -41,6 +42,7 @@ function fixture(t, { reduced = false, frameDecodes = [Promise.resolve(), Promis
   t.after(dispose);
   return {
     hero, controls, button, panels, copies, dispose,
+    finishIntro() { intro = false; document.dispatchEvent(new Event('intro:complete')); },
     visible(value) { observation([{ isIntersecting: value }]); },
     hidden(value) { document.hidden = value; document.dispatchEvent(new Event('visibilitychange')); },
     reduced(value) { media.matches = value; media.dispatchEvent(new Event('change')); },
@@ -129,4 +131,18 @@ test('late decoding and events cannot restart a disposed page', async t => {
   assert.equal(f.hero.dataset.running, 'false');
   assert.equal(f.controls.hidden, true);
   assert.equal(f.disconnected, true);
+});
+
+test('the introduction holds Arveen until the full hero entrance has finished', async t => {
+  const f = fixture(t, { intro: true });
+  await decoded(); f.visible(true);
+  t.mock.timers.tick(20000);
+  assert.equal(f.hero.dataset.scene, 'arveen');
+  assert.equal(f.hero.dataset.running, 'false');
+  f.finishIntro();
+  assert.equal(f.hero.dataset.running, 'true');
+  t.mock.timers.tick(9999);
+  assert.equal(f.hero.dataset.scene, 'arveen');
+  t.mock.timers.tick(1);
+  assert.equal(f.hero.dataset.scene, 'radha-krishna');
 });

@@ -1,3 +1,4 @@
+import { initWelcomeIntro } from './welcome-intro';
 import LocomotiveScroll from 'locomotive-scroll';
 import 'locomotive-scroll/locomotive-scroll.css';
 
@@ -17,7 +18,6 @@ export function initPageMotion() {
   const root = document.documentElement;
   const controller = new AbortController();
   const { signal } = controller;
-  const welcome = document.querySelector<HTMLElement>('.welcome-screen');
   const hero = document.querySelector<HTMLElement>('.hero');
   const entrances = Array.from(document.querySelectorAll<HTMLElement>(
     '.hero .divine-art, .hero .hero-note, .hero .scene-copy > *, .hero .hero-actions, .hero .hero-footer',
@@ -58,9 +58,8 @@ export function initPageMotion() {
     // Read geometry once, before DOM writes. Skip the inactive scene and mobile-only hidden notes.
     const heroVisible = hero && hero.getBoundingClientRect().bottom > 0;
     const visible = media.matches || !heroVisible ? [] : entrances.filter(element =>
-      !element.closest('[data-copy-scene][aria-hidden="true"]') && element.checkVisibility(),
+      !element.matches('#hero-heading') && !element.closest('[data-copy-scene][aria-hidden="true"]') && element.checkVisibility(),
     );
-    welcome?.remove();
     entrances.forEach(element => element.classList.remove('hero-enter-pending'));
     visible.forEach((element, index) => {
       const delay = element.matches('.divine-art') ? 0 : Math.min(index, 5) * 65;
@@ -73,12 +72,8 @@ export function initPageMotion() {
     });
   }
 
-  if (!media.matches && welcome) {
-    entrances.forEach(element => element.classList.add('hero-enter-pending'));
-    // Wait for the actual CSS intro, including when the script arrives late.
-    Promise.allSettled(welcome.getAnimations().map(animation => animation.finished)).then(revealHero);
-  } else revealHero();
-  startScroll();
+  if (root.classList.contains('intro-active')) entrances.forEach(element => element.classList.add('hero-enter-pending'));
+  const finishIntro = initWelcomeIntro(() => { revealHero(); startScroll(); }, revealHero);
 
   media.addEventListener('change', () => {
     if (media.matches) {
@@ -87,7 +82,6 @@ export function initPageMotion() {
       scroll = undefined;
       animations.forEach(animation => animation.cancel());
       entrances.forEach(element => element.classList.remove('hero-enter-pending'));
-      welcome?.remove();
     } else startScroll();
   }, { signal });
 
@@ -98,6 +92,7 @@ export function initPageMotion() {
 
   function dispose() {
     disposed = true;
+    finishIntro();
     root.classList.remove('motion-enabled');
     scroll?.destroy();
     animations.forEach(animation => animation.cancel());

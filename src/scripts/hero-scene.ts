@@ -26,7 +26,7 @@ export function initHeroScene(hero: HTMLElement) {
   function sync() {
     clearTimeout(timer);
     if (disposed) return;
-    const running = ready && !paused && !motion.matches && inView && !document.hidden;
+    const running = !document.documentElement.classList.contains('intro-active') && ready && !paused && !motion.matches && inView && !document.hidden;
     hero.dataset.running = String(running);
     pauseButton!.setAttribute('aria-pressed', String(paused));
     const label = paused ? 'Resume artwork animation' : 'Pause artwork animation';
@@ -41,6 +41,7 @@ export function initHeroScene(hero: HTMLElement) {
   }
   pauseButton.addEventListener('click', () => { paused = !paused; sync(); }, { signal });
   document.addEventListener('visibilitychange', sync, { signal });
+  document.addEventListener('intro:complete', sync, { signal });
   motion.addEventListener('change', sync, { signal });
   const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; sync(); });
   observer.observe(hero);
