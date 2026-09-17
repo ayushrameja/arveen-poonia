@@ -19,11 +19,11 @@ try {
     await page.goto(url, { waitUntil: 'networkidle0' });
     await page.waitForFunction(() => document.querySelector('.hero')?.dataset.running === 'true');
     assert.equal(await page.evaluate(() => [...document.querySelectorAll('.liquid-drift')].every(el => el.getAnimations().some(a => a.playState === 'running'))), true, 'Both colour textures must drift while playing');
-    await page.locator('[data-pause]').click();
-    await page.waitForFunction(() => document.querySelector('.hero')?.dataset.running === 'false');
+    assert.equal(await page.$('[data-pause]'), null);
     // Freeze a representative ripple, including visible lettering, for repeatable QA.
     await page.evaluate(() => {
-      document.querySelectorAll('.mantra-ring').forEach(element => element.getAnimations().forEach(animation => {
+      document.querySelectorAll('.mantra-ring, .liquid-drift').forEach(element => element.getAnimations().forEach(animation => {
+        animation.pause();
         animation.currentTime = 3000;
       }));
     });
@@ -40,7 +40,7 @@ try {
         overflow: document.documentElement.scrollWidth > innerWidth,
         border: getComputedStyle(document.querySelector('.site-header')).borderBottomWidth,
         visibleRings: rings.length,
-        paused: [...document.querySelectorAll('.mantra-ring, .liquid-drift')].every(el => getComputedStyle(el).animationPlayState === 'paused'),
+        paused: [...document.querySelectorAll('.mantra-ring, .liquid-drift')].every(el => el.getAnimations().every(animation => animation.playState === 'paused')),
       };
     });
     assert.ok(geometry.maxCenterError < .6, JSON.stringify({ width, ...geometry }));
@@ -61,7 +61,6 @@ try {
   const before = await times();
   await pause(250);
   assert.deepEqual(await times(), before);
-  await page.locator('[data-pause]').click();
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
   await page.waitForFunction(() => document.querySelector('.hero').dataset.running === 'false');
   assert.equal(await page.evaluate(() => [...document.querySelectorAll('.mantra-ring, .liquid-drift')]
@@ -70,7 +69,7 @@ try {
   await page.goto(url, { waitUntil: 'networkidle0' });
   assert.equal(await page.evaluate(() => [...document.querySelectorAll('.mantra-ring, .liquid-drift')]
     .every(el => el.getAnimations().length === 0)), true);
-  assert.equal(await page.$eval('.art-controls', el => el.hidden), true);
+  assert.equal(await page.$('[data-pause]'), null);
   await page.screenshot({ path: new URL('hero-aligned-reduced.png', directory).pathname });
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }]);
   await page.setViewport({ width: 1440, height: 1000, deviceScaleFactor: 1 });
@@ -84,12 +83,11 @@ try {
     }, selector);
     await page.waitForFunction(tone => {
       const root = document.documentElement;
-      return (root.classList.contains('home-evening') ? 'evening'
-        : root.classList.contains('home-saffron') ? 'saffron' : 'light') === tone;
+      return root.dataset.paperTone === tone;
     }, {}, expectedTone);
   };
   // Instant jumps deliberately skip whole sections to exercise observer boundaries.
-  await jump('.home-story', 'saffron');
+  await jump('.home-story', 'light');
   await jump('.home-practice', 'light');
   await jump('[data-closing-tone]', 'evening');
   await jump('.hero', 'light');
@@ -103,13 +101,13 @@ try {
     .every(el => el.classList.contains('is-inview')));
   await page.screenshot({ path: new URL('native-scroll-second-section.png', directory).pathname });
   await page.goto(new URL('#explore', url).href, { waitUntil: 'networkidle0' });
-  await page.waitForFunction(() => document.documentElement.classList.contains('home-saffron'));
+  await page.waitForFunction(() => document.documentElement.dataset.paperTone === 'saffron');
   assert.equal(await page.$('.welcome-screen'), null);
   console.log('Native scrolling, one-time reveals, chapter jumps and anchor navigation passed.');
   await jump('.hero', 'light');
   await page.waitForFunction(() => document.querySelector('.site-header')?.dataset.atTop === 'true');
   assert.deepEqual(errors, []);
-  console.log('Pause, offscreen, reduced motion and runtime error checks passed.');
+  console.log('Offscreen, reduced motion and runtime error checks passed.');
 } finally {
   await browser.close();
 }

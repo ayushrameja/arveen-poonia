@@ -19,7 +19,7 @@ node scripts/generate-hero-atmosphere.mjs
 ```
 
 The shared `data-running` state pauses both the rings and colour drift when the
-user pauses, less than 70% of the hero is visible, the document is hidden, or the
+less than 70% of the hero is visible, the document is hidden, or the
 introduction is active. Ambient motion also pauses immediately during scrolling
 and can resume 180ms after scrolling settles. The homepage header retains its paper colour and has no bottom border;
 other pages retain their existing header treatment.
@@ -34,7 +34,7 @@ pnpm perf:motion http://localhost:4321/ hero-motion 1
 ```
 
 The browser check verifies concentric geometry at 320, 390, 1440, and 1984px,
-no horizontal overflow, the homepage header border, active colour drift, pause,
+no horizontal overflow, the homepage header border, active colour drift,
 offscreen suspension, and reduced motion. It saves screenshots in the ignored
 `reports/performance/` directory. The profiler samples natural scene changes at
 1440 × 1000, DPR 2, with 4× CPU slowdown. Frame intervals are a requestAnimationFrame

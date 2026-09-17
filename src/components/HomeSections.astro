@@ -1,21 +1,10 @@
 ---
 import HomePractice from './HomePractice.astro';
 import HomeStory from './HomeStory.astro';
-import VideoCard from './VideoCard.astro';
+import HomeVideoStories from './HomeVideoStories.astro';
 import HomeCollection from './HomeCollection.astro';
-import videos from '../data/videos.json';
 ---
-<section class="section-block watch-section" id="explore" aria-labelledby="start-heading">
-  <div class="content-wrap">
-    <div class="watch-grid">
-      <div class="watch-feature">
-        <div class="watch-heading"><h2 id="start-heading">A little curiosity.<br /><span>A new perspective.</span></h2></div>
-        <VideoCard video={videos[0]} featured />
-      </div>
-      <div class="watch-next">{videos.slice(1,5).map(video => <VideoCard video={video} />)}</div>
-    </div>
-  </div>
-</section>
+<HomeVideoStories />
 <HomeStory />
 <HomePractice />
 <HomeCollection />

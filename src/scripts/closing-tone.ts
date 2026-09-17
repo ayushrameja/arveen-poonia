@@ -2,8 +2,8 @@
 export function initClosingTone() {
   const closing = document.querySelector<HTMLElement>('[data-closing-tone]');
   if (!closing) return;
-  const opening = document.querySelector<HTMLElement>('.watch-section');
-  const practice = document.querySelector<HTMLElement>('.home-practice');
+  const opening = document.querySelector<HTMLElement>('[data-video-stories]');
+  const story = document.querySelector<HTMLElement>('.home-story');
   const root = document.documentElement;
   const theme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
   const originalTheme = theme?.content;
@@ -21,20 +21,20 @@ export function initClosingTone() {
 
   function applyInk(next: 'light' | 'saffron' | 'evening') {
     if (disposed) return;
-    root.classList.toggle('home-saffron', next === 'saffron');
     root.classList.toggle('home-evening', next === 'evening');
   }
 
   function update() {
     frame = 0;
     if (disposed) return;
-    const chapterLine = window.innerHeight * .35;
-    // Read all geometry together, then apply the new palette only if it changed.
+    // The entering story shares the canvas, so both sides of its boundary fade together.
     const openingTop = opening?.getBoundingClientRect().top;
-    const practiceTop = practice?.getBoundingClientRect().top;
+    const storyTop = story?.getBoundingClientRect().top;
+    const chapterLine = window.innerHeight * .35;
+    const openingActive = openingTop !== undefined && storyTop !== undefined
+      && openingTop <= chapterLine && storyTop > chapterLine;
+    opening?.toggleAttribute('data-tone-active', openingActive);
     const closingTop = closing!.getBoundingClientRect().top;
-    const openingActive = openingTop !== undefined && practiceTop !== undefined
-      && openingTop <= chapterLine && practiceTop > chapterLine;
     const next = closingTop <= window.innerHeight * .75 ? 'evening'
       : openingActive ? 'saffron' : 'light';
     if (next === tone) return;
@@ -72,7 +72,7 @@ export function initClosingTone() {
       rootMargin: `${pageHeight}px 0px -${window.innerHeight * .65}px 0px`,
     });
     if (opening) chapterObserver.observe(opening);
-    if (practice) chapterObserver.observe(practice);
+    if (story) chapterObserver.observe(story);
     closingObserver = new IntersectionObserver(schedule, {
       rootMargin: `${pageHeight}px 0px -${window.innerHeight * .25}px 0px`,
     });
@@ -80,6 +80,7 @@ export function initClosingTone() {
     schedule();
   }
 
+  opening?.setAttribute('data-tone-ready', '');
   update();
   root.classList.add('home-tone-enabled');
   observeBoundaries();
@@ -100,6 +101,8 @@ export function initClosingTone() {
     resize.disconnect();
     cancelAnimationFrame(frame);
     clearTimeout(inkTimer);
+    opening?.removeAttribute('data-tone-ready');
+    opening?.removeAttribute('data-tone-active');
     root.classList.remove('home-tone-enabled', 'home-saffron', 'home-evening');
     delete root.dataset.paperTone;
     if (theme && originalTheme !== undefined) theme.content = originalTheme;

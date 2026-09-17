@@ -1,8 +1,5 @@
 /** One shared scene state keeps portraits, rings and atmosphere in sync. */
 export function initHeroScene(hero: HTMLElement) {
-  const pauseButton = hero.querySelector<HTMLButtonElement>('[data-pause]');
-  const controls = hero.querySelector<HTMLElement>('.art-controls');
-  if (!pauseButton || !controls) return;
   const panels = hero.querySelectorAll<HTMLElement>('[data-scene-panel]');
   const copyPanels = hero.querySelectorAll<HTMLElement>('[data-copy-scene]');
   const frames = hero.querySelectorAll<HTMLImageElement>('[data-portrait-frame]');
@@ -10,7 +7,6 @@ export function initHeroScene(hero: HTMLElement) {
   const controller = new AbortController();
   const { signal } = controller;
   let scene = 'arveen';
-  let paused = false;
   let inView = false;
   let disposed = false;
   let ready = false;
@@ -28,20 +24,13 @@ export function initHeroScene(hero: HTMLElement) {
   function sync() {
     clearTimeout(timer);
     if (disposed) return;
-    const running = !document.documentElement.classList.contains('intro-active') && ready && !paused && !scrolling && !motion.matches && inView && !document.hidden;
+    const running = !document.documentElement.classList.contains('intro-active') && ready && !scrolling && !motion.matches && inView && !document.hidden;
     hero.dataset.running = String(running);
-    pauseButton!.setAttribute('aria-pressed', String(paused));
-    const label = paused ? 'Resume artwork animation' : 'Pause artwork animation';
-    pauseButton!.setAttribute('aria-label', label);
-    pauseButton!.title = label;
-    controls!.hidden = !ready || motion.matches;
-    pauseButton!.hidden = motion.matches;
     if (running) timer = setTimeout(() => {
       setScene(scene === 'radha-krishna' ? 'arveen' : 'radha-krishna');
       sync();
     }, 10000);
   }
-  pauseButton.addEventListener('click', () => { paused = !paused; sync(); }, { signal });
   document.addEventListener('visibilitychange', sync, { signal });
   document.addEventListener('intro:complete', sync, { signal });
   motion.addEventListener('change', sync, { signal });

@@ -28,7 +28,7 @@ Run `pnpm assets:ascii` after changing the source. `scripts/generate-ascii.mjs` 
 
 The browser renders one portrait image plus one small texture strip. Only the strip changes opacity using a CSS step animation every four seconds. There is no canvas, requestAnimationFrame loop, timer, per-character DOM, rotating full-size halo or backdrop blur. The face, hands, crown, flute and silhouette remain still. Static HTML works without JavaScript.
 
-Event-driven controls pause the animation when hidden, offscreen, manually paused, or reduced motion is enabled. Reduced-motion CSS independently hides the changing strip and control, even without JavaScript. No device-temperature or power measurement is claimed.
+Event-driven controls pause the animation when hidden, offscreen, or reduced motion is enabled. Reduced-motion CSS independently hides the changing strip, even without JavaScript. No device-temperature or power measurement is claimed.
 
 ## Typography and interface
 
@@ -38,7 +38,7 @@ The two CTA anchors have independent hover states, bold text, no icons, and visi
 
 ## Validation
 
-- `pnpm test`: background visibility, manual pause, reduced-motion changes, offscreen behavior and cleanup after late image decoding.
+- `pnpm test`: background visibility, reduced-motion changes, offscreen behavior and cleanup after late image decoding.
 - `pnpm build`: Astro/TypeScript checks and static production build.
 - Browser review at desktop and phone sizes, including actual 320px width, with no horizontal overflow or CTA/dock overlap.
 

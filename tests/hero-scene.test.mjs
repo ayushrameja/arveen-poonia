@@ -18,8 +18,6 @@ function fixture(t, { reduced = false, intro = false, frameDecodes = [Promise.re
     el.setAttribute = (key, value) => el.attributes.set(key, value);
     return el;
   }
-  const button = element();
-  const controls = { hidden: true };
   const names = ['arveen', 'radha-krishna'];
   const panels = names.map(scenePanel => element({ scenePanel }));
   const frames = frameDecodes.map((promise, index) => ({ decode: () => promise, closest: () => panels[index] }));
@@ -27,7 +25,6 @@ function fixture(t, { reduced = false, intro = false, frameDecodes = [Promise.re
   const hero = {
     setAttribute: (key, value) => { hero[key] = value; },
     dataset: { scene: 'arveen' },
-    querySelector: selector => ({ '[data-pause]': button, '.art-controls': controls })[selector],
     querySelectorAll: selector => ({ '[data-scene-panel]': panels, '[data-portrait-frame]': frames, '[data-copy-scene]': copies })[selector],
   };
   globalThis.document = document;
@@ -41,7 +38,7 @@ function fixture(t, { reduced = false, intro = false, frameDecodes = [Promise.re
   const dispose = () => document.dispatchEvent(new Event('astro:before-swap'));
   t.after(dispose);
   return {
-    hero, controls, button, panels, copies, dispose,
+    hero, panels, copies, dispose,
     finishIntro() { intro = false; document.dispatchEvent(new Event('intro:complete')); },
     visible(value, ratio = value ? 1 : 0) { observation([{ isIntersecting: value, intersectionRatio: ratio }]); },
     scroll() { document.dispatchEvent(new Event('scroll')); },
@@ -51,7 +48,6 @@ function fixture(t, { reduced = false, intro = false, frameDecodes = [Promise.re
   };
 }
 const decoded = () => new Promise(setImmediate);
-const click = element => element.dispatchEvent(new Event('click'));
 
 test('automatic switching synchronizes the hero, portrait and accessible selection', async t => {
   const f = fixture(t);
@@ -68,43 +64,25 @@ test('automatic switching synchronizes the hero, portrait and accessible selecti
   assert.equal(f.hero.dataset.scene, 'arveen');
 });
 
-test('pause holds the current scene until playback resumes', async t => {
-  const f = fixture(t);
-  await decoded(); f.visible(true);
-  t.mock.timers.tick(10000);
-  click(f.button);
-  assert.equal(f.hero.dataset.scene, 'radha-krishna');
-  assert.equal(f.button.attributes.get('aria-label'), 'Resume artwork animation');
-  t.mock.timers.tick(30000);
-  assert.equal(f.hero.dataset.scene, 'radha-krishna');
-  click(f.button); t.mock.timers.tick(10000);
-  assert.equal(f.hero.dataset.scene, 'arveen');
-});
-
-test('pause persists across viewport, tab visibility and motion preference changes', async t => {
+test('animation respects viewport, tab visibility and motion preference changes', async t => {
   const f = fixture(t);
   await decoded(); f.visible(true);
   assert.equal(f.hero.dataset.running, 'true');
   f.hidden(true); t.mock.timers.tick(10000);
   assert.equal(f.hero.dataset.scene, 'arveen');
-  f.hidden(false); click(f.button);
-  f.visible(false); f.visible(true); f.hidden(true); f.hidden(false);
-  assert.equal(f.hero.dataset.running, 'false');
-  click(f.button);
+  f.hidden(false);
+  assert.equal(f.hero.dataset.running, 'true');
   f.reduced(true);
   assert.equal(f.hero.dataset.running, 'false');
-  assert.equal(f.controls.hidden, true);
-  assert.equal(f.button.hidden, true);
   f.reduced(false);
   assert.equal(f.hero.dataset.running, 'true');
   f.visible(false); t.mock.timers.tick(10000);
   assert.equal(f.hero.dataset.scene, 'arveen');
 });
 
-test('reduced motion keeps the first portrait still and hides animation controls', async t => {
+test('reduced motion keeps the first portrait still', async t => {
   const f = fixture(t, { reduced: true });
   await decoded(); f.visible(true);
-  assert.equal(f.controls.hidden, true);
   t.mock.timers.tick(20000);
   assert.equal(f.hero.dataset.scene, 'arveen');
   assert.equal(f.hero.dataset.running, 'false');
@@ -115,11 +93,9 @@ test('a failed first image waits for a slow healthy fallback and never cycles', 
   const pending = new Promise(resolve => { finish = resolve; });
   const f = fixture(t, { frameDecodes: [Promise.reject(new Error('image unavailable')), pending] });
   f.visible(true); await decoded();
-  assert.equal(f.controls.hidden, true);
   finish(); await decoded();
   assert.equal(f.hero.dataset.scene, 'radha-krishna');
   assert.equal(f.hero.dataset.running, 'false');
-  assert.equal(f.controls.hidden, true);
 });
 
 test('late decoding and events cannot restart a disposed page', async t => {
@@ -130,7 +106,6 @@ test('late decoding and events cannot restart a disposed page', async t => {
   f.hidden(false); f.reduced(false); t.mock.timers.tick(20000);
   assert.equal(f.hero.dataset.cycleReady, undefined);
   assert.equal(f.hero.dataset.running, 'false');
-  assert.equal(f.controls.hidden, true);
   assert.equal(f.disconnected, true);
 });
 
@@ -158,7 +133,7 @@ test('a partially visible hero stays quiet and resumes when mostly visible', asy
   assert.equal(f.hero.dataset.running, 'true');
 });
 
-test('scrolling suspends effects until settling and never overrides manual pause', async t => {
+test('scrolling suspends effects until settling', async t => {
   const f = fixture(t);
   await decoded(); f.visible(true);
   f.scroll();
@@ -167,9 +142,6 @@ test('scrolling suspends effects until settling and never overrides manual pause
   assert.equal(f.hero.dataset.running, 'false');
   t.mock.timers.tick(60);
   assert.equal(f.hero.dataset.running, 'true');
-  f.scroll(); click(f.button); t.mock.timers.tick(180);
-  assert.equal(f.hero.dataset.running, 'false');
-  assert.equal(f.button.attributes.get('aria-pressed'), 'true');
 });
 
 test('a pending scroll resume cannot restart a disposed hero', async t => {

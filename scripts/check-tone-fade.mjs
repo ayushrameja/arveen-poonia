@@ -18,9 +18,29 @@ try {
     await page.waitForFunction(tone => document.documentElement.dataset.paperTone === tone, {}, tone);
   };
   const opacity = pseudo => page.$eval('.tone-backdrop--page', (el, pseudo) => Number(getComputedStyle(el, pseudo).opacity), pseudo);
+  await jump('.watch-section', 'saffron');
+  assert.equal(await page.$eval('.watch-section', el => getComputedStyle(el).borderTopWidth), '0px', 'No section border may expose a seam during the background fade');
+  await page.waitForFunction(() => {
+    const opacity = Number(getComputedStyle(document.querySelector('.watch-section'), '::before').opacity);
+    return opacity > 0 && opacity < 1;
+  });
+  await wait(750);
+  assert.equal(await page.$eval('.watch-section', el => Number(getComputedStyle(el, '::before').opacity)), 1);
+  assert.equal(await opacity('::before'), 1, 'The exposed page canvas shares the yellow fade');
+  assert.equal(await page.$eval('.hero', el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', 'The hero tail must not cover the shared canvas');
+  // Reproduce the boundary view: the next section is visible, but has not
+  // crossed the 35% line that starts the shared fade back to light.
+  await page.evaluate(() => window.scrollTo({ top: document.querySelector('.home-story').getBoundingClientRect().top + scrollY - innerHeight * .75, behavior: 'instant' }));
+  await wait(100);
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.paperTone), 'saffron');
+  assert.equal(await page.$eval('.home-story', el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', 'The entering story must reveal the shared yellow canvas');
+  await page.screenshot({ path: new URL('tone-fade-story-boundary.png', directory).pathname });
+  await jump('.home-story', 'light');
+  assert.equal(await page.$eval('.home-story', el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)');
+  await wait(750);
+  assert.equal(await page.$eval('.watch-section', el => Number(getComputedStyle(el, '::before').opacity)), 0);
+  assert.equal(await opacity('::before'), 0);
   for (const [selector, tone, pseudo, target] of [
-    ['.watch-section', 'saffron', '::before', 1],
-    ['.home-practice', 'light', '::before', 0],
     ['[data-closing-tone]', 'evening', '::after', 1],
     ['.hero', 'light', '::after', 0],
   ]) {
@@ -65,5 +85,5 @@ try {
   await jump('.hero', 'light');
   assert.equal(await opacity('::after'), 0);
   assert.deepEqual(errors, []);
-  console.log('Both transitions, reversals, navbar sync, quick direction changes and reduced motion passed.');
+  console.log('Shared saffron story boundary, light fade, evening reversals, navbar sync and reduced motion passed.');
 } finally { await browser.close(); }

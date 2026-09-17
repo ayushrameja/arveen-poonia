@@ -1,4 +1,4 @@
-/* One shared canvas coordinates the saffron and green chapters. */
+/* The shared canvas, entering story, and header fade together. */
 .home-tone-enabled {
   --closing-paper: #faf9f5;
   --closing-ink: #203c36;
@@ -31,52 +31,14 @@
   opacity: 0;
   transition: opacity 700ms linear;
 }
-.tone-backdrop::before { background: #f4cd72; }
 .tone-backdrop::after { background: #203e35; }
-.home-tone-enabled[data-paper-tone='saffron'] .tone-backdrop::before,
+.tone-backdrop::before { background: #f4cd72; }
+.home-tone-enabled[data-paper-tone='saffron'] .tone-backdrop::before { opacity: 1; }
 .home-tone-enabled[data-paper-tone='evening'] .tone-backdrop::after { opacity: 1; }
 .home-tone-enabled .site-header[data-at-top='true'] > .tone-backdrop { display: none; }
 /* One viewport-sized surface shows through the chapters; cards keep their own fills. */
-:root.home-tone-enabled :is(.hero, .watch-section, .home-practice, .journal-invite, .site-footer) {
+:root.home-tone-enabled :is(.hero, .home-story, .home-practice, .journal-invite, .site-footer) {
   background-color: transparent;
-}
-.home-tone-enabled.home-saffron {
-  --home-card-olive: #583b3b;
-  --home-card-olive-hover: #452d2d;
-  --home-card-muted: #eadedd;
-  --closing-paper: #f4cd72;
-  --closing-ink: #3e301b;
-  --closing-muted: #645032;
-  --closing-accent: #80501d;
-  --closing-line: #c69a49;
-  --closing-nav: #e9b950;
-}
-/* Warm brown and cream accents complement the golden canvas. */
-.home-saffron .video-feature-label {
-  border-color: #aa8989;
-}
-.home-saffron .watch-grid .video-card--featured .video-watch-label {
-  text-decoration-color: #c5a5a5;
-}
-.home-saffron .portrait-greeting {
-  color: var(--home-card-olive);
-}
-.home-saffron .story-action .hero-cta {
-  background-color: var(--home-card-olive);
-  border-color: var(--home-card-olive);
-  color: var(--home-card-cream);
-}
-.home-saffron .story-action .hero-cta::before {
-  background-color: #765151;
-}
-@media (hover: hover) {
-  .home-saffron .story-action .hero-cta:hover {
-    background-color: var(--home-card-olive-hover);
-    border-color: var(--home-card-olive-hover);
-  }
-}
-.home-saffron :is(.watch-section, .home-story) a:focus-visible {
-  outline-color: var(--home-card-olive);
 }
 .home-tone-enabled.home-evening {
   --closing-paper: #203e35;
@@ -96,12 +58,7 @@
 }
 /* The visible tail of the hero shares the page's canvas during transitions. */
 .home-tone-enabled .hero {
-  background-color: var(--closing-paper);
   color: var(--closing-ink);
-}
-.home-tone-enabled .watch-section {
-  background-color: var(--closing-paper);
-  border-color: var(--closing-line);
 }
 .home-tone-enabled .watch-heading h2 > span,
 .home-tone-enabled .practice-copy .eyebrow {
@@ -114,7 +71,6 @@
 .home-tone-enabled .watch-next .video-card {
   border-color: var(--closing-line);
 }
-.home-saffron .watch-next .video-card:hover,
 .home-evening .watch-next .video-card:hover {
   background-color: color-mix(in srgb, var(--closing-paper), white 24%);
 }

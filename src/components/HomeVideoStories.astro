@@ -1,0 +1,66 @@
+---
+import videos from '../data/videos.json';
+import '../styles/video-stories.css';
+
+const chapters = [
+  { ...videos[0], label: 'Everyday rhythms', heading: 'Beyond the perfect routine.', description: 'Two years of trying to get it right. A reflection on routines and the everyday effort behind them.', file: 'perfect-routine' },
+  { ...videos[1], label: 'The yoga journey', heading: 'A practice. A path.', description: 'Arveen shares his journey with yoga—and what it means to make a living from the practice.', file: 'yoga-journey' },
+  { ...videos[2], label: 'A life of bhakti', heading: 'Devotion in the everyday.', description: 'Join Arveen for Jagannath Ji’s Snana Yatra, a glimpse into the traditions that shape his days.', file: 'snana-yatra' },
+];
+---
+<section class="watch-section watch-stories" id="explore" aria-labelledby="start-heading" data-video-stories>
+  <div class="story-scroll" data-story-scroll>
+    <div class="story-stage">
+      <div class="story-atmosphere" aria-hidden="true">
+        <svg class="story-texture" data-story-texture="0" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
+          {Array.from({ length: 12 }, (_, i) => <path d={`M ${-300 + i * 26} -80 C ${500 + i * 20} 180, ${-420 + i * 28} 510, ${120 + i * 24} 980 M ${1260 + i * 24} -80 C ${900 + i * 25} 240, ${1690 + i * 22} 540, ${1150 + i * 28} 980`} />)}
+        </svg>
+        <svg class="story-texture" data-story-texture="1" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
+          {Array.from({ length: 12 }, (_, i) => <><circle cx="-80" cy="460" r={140 + i * 28} /><circle cx="1460" cy="400" r={100 + i * 30} /></>)}
+        </svg>
+        <svg class="story-texture" data-story-texture="2" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
+          {[[-50, 590], [1480, 310]].map(([x, y]) => <g transform={`translate(${x} ${y})`}>{Array.from({ length: 16 }, (_, i) => <ellipse cx="0" cy="-170" rx="64" ry="220" transform={`rotate(${i * 22.5})`} />)}</g>)}
+        </svg>
+      </div>
+      <div class="story-progress" role="progressbar" aria-label="Video chapter scroll progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden data-story-progress>
+        {chapters.map((_, index) => <span class="story-progress-segment" data-story-progress-segment={index}><span /></span>)}
+      </div>
+      <nav class="story-chapters" aria-label="Video chapters" hidden>
+        {chapters.map((chapter, index) => (
+          <button type="button" data-story-chapter={index} aria-controls={`video-story-${index}`} aria-current={index === 0 ? 'step' : undefined} aria-label={`Chapter ${index + 1}: ${chapter.label}`} title={chapter.label}>
+            <span class="chapter-number" aria-hidden="true">{index + 1}</span>
+          </button>
+        ))}
+      </nav>
+      <div class="story-heading">
+        <h2 id="start-heading">A little curiosity.<br /><span>A new perspective.</span></h2>
+      </div>
+      <div class="story-track" data-story-track>
+        {chapters.map((chapter, index) => (
+          <article class="video-story" id={`video-story-${index}`} data-story-card={index} aria-labelledby={`video-story-title-${index}`}>
+            <div class="story-film" data-story-film={index}>
+              <video width="1280" height="720" muted loop playsinline preload="none" poster={`/videos/previews/${chapter.file}.webp`} data-preview-src={`/videos/previews/${chapter.file}.mp4?v=2`} data-preview-webm-src={`/videos/previews/${chapter.file}.webm?v=2`} aria-hidden="true" tabindex="-1"></video>
+              <span class="story-film-label" aria-hidden="true">0{index + 1} / 03 <span>{chapter.label}</span></span>
+            </div>
+            <div class="story-caption" data-story-caption={index}>
+              <h3 id={`video-story-title-${index}`}>{chapter.heading}</h3>
+              <p class="story-description">{chapter.description}</p>
+              <a class="story-watch" href={`https://www.youtube.com/watch?v=${chapter.id}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch ${chapter.title} on YouTube (opens in a new tab)`}>
+                Watch full video
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <button class="story-playback" type="button" data-story-playback aria-pressed="false" hidden>
+        <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true"><path class="story-pause-icon" d="M6 4h3v12H6zm5 0h3v12h-3z" fill="currentColor" /><path class="story-play-icon" d="m6 3 10 7-10 7V3Z" fill="currentColor" /></svg>
+        <span data-playback-label>Pause previews</span>
+      </button>
+    </div>
+  </div>
+</section>
+<script>
+  import { initVideoStories } from '../scripts/video-stories';
+  const section = document.querySelector<HTMLElement>('[data-video-stories]');
+  if (section) initVideoStories(section);
+</script>
