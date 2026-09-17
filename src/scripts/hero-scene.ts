@@ -14,6 +14,8 @@ export function initHeroScene(hero: HTMLElement) {
   let inView = false;
   let disposed = false;
   let ready = false;
+  let scrolling = false;
+  let scrollTimer: ReturnType<typeof setTimeout> | undefined;
   let timer: ReturnType<typeof setTimeout> | undefined;
 
   function setScene(next: string) {
@@ -26,7 +28,7 @@ export function initHeroScene(hero: HTMLElement) {
   function sync() {
     clearTimeout(timer);
     if (disposed) return;
-    const running = !document.documentElement.classList.contains('intro-active') && ready && !paused && !motion.matches && inView && !document.hidden;
+    const running = !document.documentElement.classList.contains('intro-active') && ready && !paused && !scrolling && !motion.matches && inView && !document.hidden;
     hero.dataset.running = String(running);
     pauseButton!.setAttribute('aria-pressed', String(paused));
     const label = paused ? 'Resume artwork animation' : 'Pause artwork animation';
@@ -43,7 +45,18 @@ export function initHeroScene(hero: HTMLElement) {
   document.addEventListener('visibilitychange', sync, { signal });
   document.addEventListener('intro:complete', sync, { signal });
   motion.addEventListener('change', sync, { signal });
-  const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; sync(); });
+  // Prioritize interaction over ambient effects. Resume only after scrolling
+  // settles, and only when most of the hero is visible again.
+  document.addEventListener('scroll', () => {
+    if (!inView) return;
+    if (!scrolling) { scrolling = true; sync(); }
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => { scrolling = false; sync(); }, 180);
+  }, { passive: true, signal });
+  const observer = new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting && entry.intersectionRatio >= .7;
+    sync();
+  }, { threshold: [0, .7] });
   observer.observe(hero);
   setScene(scene);
   sync();
@@ -63,6 +76,7 @@ export function initHeroScene(hero: HTMLElement) {
   function dispose() {
     disposed = true;
     clearTimeout(timer);
+    clearTimeout(scrollTimer);
     hero.dataset.running = 'false';
     observer.disconnect();
     controller.abort();

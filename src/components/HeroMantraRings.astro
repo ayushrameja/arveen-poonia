@@ -1,0 +1,94 @@
+---
+const mantra = 'Hare Krishna Hare Krishna Krishna Krishna Hare Hare · Hare Rama Hare Rama Rama Rama Hare Hare · ';
+const rings = Array.from({ length: 6 }, (_, index) => {
+  const radius = 320 + index * 70;
+  return { index, radius, size: radius * 2 + 40, circumference: 2 * Math.PI * radius };
+});
+---
+<div class="mantra-field" aria-hidden="true">
+  {rings.map(({ index, radius, size, circumference }) => (
+    <div class="mantra-ring" style={`--ring-index: ${index + 1}; --ring-delay: ${index * 420}ms;`}>
+    <svg class="mantra-ring-art"
+      viewBox={`0 0 ${size} ${size}`} fill="none" focusable="false">
+      <defs>
+        <path id={`mantra-path-${index}`} d={`M ${size / 2} 20 a ${radius} ${radius} 0 1 1 0 ${radius * 2} a ${radius} ${radius} 0 1 1 0 -${radius * 2}`} />
+      </defs>
+      <circle class="mantra-line" cx={size / 2} cy={size / 2} r={radius} />
+      <circle class="mantra-light" cx={size / 2} cy={size / 2} r={radius - 7} />
+      {index % 2 === 0 && (
+        <text dy="-8" textLength={circumference * .97} lengthAdjust="spacing">
+          <textPath href={`#mantra-path-${index}`} startOffset="1.5%">{mantra.repeat(Math.max(2, Math.round(circumference / 1050)))}</textPath>
+        </text>
+      )}
+    </svg>
+    </div>
+  ))}
+</div>
+
+<style>
+  .mantra-field {
+    --ring-lift: 15px;
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: calc(50% - var(--ring-lift));
+    width: 100vw;
+    /* Extend only upward: keep the lower fade clear of the hero copy. */
+    height: calc(var(--art-size) + 170px);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    overflow: hidden;
+    /* Reveal side arcs, with no lettering passing across the face or heading. */
+    mask-image: linear-gradient(90deg, #000 0%, #000 24%, transparent 42%, transparent 58%, #000 76%, #000),
+      linear-gradient(#000b, #000 24%, #000 72%, transparent 97%);
+    mask-composite: intersect;
+  }
+  .mantra-ring {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    contain: paint;
+    animation: mantra-breathe 6.8s cubic-bezier(.22, .61, .36, 1) var(--ring-delay) both;
+    animation-play-state: paused;
+  }
+  .mantra-ring-art {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + var(--ring-lift));
+    width: calc(var(--art-size) * 1.06 + var(--ring-index) * clamp(90px, 11vw, 190px));
+    max-width: none;
+    height: auto;
+    aspect-ratio: 1;
+    overflow: visible;
+    color: #947640;
+    translate: -50% -50%;
+  }
+  .mantra-line { stroke: currentColor; stroke-width: .8; opacity: .6; }
+  .mantra-light { stroke: #daa64e; stroke-width: 9; opacity: .065; }
+  text { fill: currentColor; font-family: 'Google Sans', sans-serif; font-size: 12px; font-weight: 400; letter-spacing: 1.2px; }
+  :global(.hero[data-scene='radha-krishna']) .mantra-ring { animation-name: mantra-breathe-divine; }
+  :global(.hero[data-running='true']) .mantra-ring { animation-play-state: running; will-change: opacity; }
+  /* Stationary geometry and ordinary strokes let the browser cache the SVG
+     during both animation and scrolling. Only HTML opacity animates. */
+  @keyframes mantra-breathe {
+    0% { opacity: 0; }
+    26%, 42% { opacity: .65; }
+    100% { opacity: 0; }
+  }
+  /* Distinct names restart the ripple when the shared portrait scene changes. */
+  @keyframes mantra-breathe-divine {
+    0% { opacity: 0; }
+    26%, 42% { opacity: .65; }
+    100% { opacity: 0; }
+  }
+  @media (max-width: 700px) {
+    .mantra-field { --ring-lift: 30px; height: calc(var(--art-size) + 100px); }
+    .mantra-ring-art { width: calc(var(--art-size) * 1.06 + var(--ring-index) * 76px); }
+    .mantra-ring:nth-child(n + 4) { display: none; }
+    text { font-size: 20px; letter-spacing: .7px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mantra-ring { animation: none; opacity: .24; transform: none; }
+    .mantra-ring:nth-child(n + 4) { display: none; }
+  }
+</style>

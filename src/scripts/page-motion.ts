@@ -1,6 +1,4 @@
 import { initWelcomeIntro } from './welcome-intro';
-import LocomotiveScroll from 'locomotive-scroll';
-import 'locomotive-scroll/locomotive-scroll.css';
 
 // Animate independent content blocks, not entire sections containing other reveals.
 const revealSelectors = [
@@ -24,16 +22,15 @@ export function initPageMotion() {
   ));
   const reveals = Array.from(document.querySelectorAll<HTMLElement>(revealSelectors.join(',')))
     .filter(element => !element.parentElement?.closest(revealSelectors.join(',')));
-  let scroll: LocomotiveScroll | undefined;
+  let revealObserver: IntersectionObserver | undefined;
   let disposed = false;
   const animations = new Set<Animation>();
   let heroRevealed = false;
 
-  function startScroll() {
-    if (disposed || media.matches || scroll) return;
+  function startReveals() {
+    if (disposed || media.matches || revealObserver) return;
     const siblingIndexes = new Map<Element, number>();
     reveals.forEach(element => {
-      element.dataset.scroll = '';
       element.dataset.reveal = '';
       const parent = element.parentElement!;
       const index = siblingIndexes.get(parent) ?? 0;
@@ -41,14 +38,22 @@ export function initPageMotion() {
       element.style.setProperty('--reveal-delay', `${Math.min(index, 3) * 75}ms`);
     });
     try {
-      scroll = new LocomotiveScroll({
-        lenisOptions: { lerp: 0.085, smoothWheel: true, syncTouch: false, anchors: true },
-      });
+      // Native scrolling stays on the browser's compositor. Each content block
+      // is observed only until its first entrance; there is no continuous JS loop.
+      revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-inview');
+          revealObserver?.unobserve(entry.target);
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -24px 0px' });
+      reveals.filter(element => !element.classList.contains('is-inview'))
+        .forEach(element => revealObserver!.observe(element));
       root.classList.add('motion-enabled');
     } catch (error) {
       // Content remains visible and native scrolling works if initialization fails.
       root.classList.remove('motion-enabled');
-      console.warn('Smooth scrolling could not start.', error);
+      console.warn('Section entrance effects could not start.', error);
     }
   }
 
@@ -73,16 +78,17 @@ export function initPageMotion() {
   }
 
   if (root.classList.contains('intro-active')) entrances.forEach(element => element.classList.add('hero-enter-pending'));
-  const finishIntro = initWelcomeIntro(() => { revealHero(); startScroll(); }, revealHero);
+  const finishIntro = initWelcomeIntro(() => { revealHero(); startReveals(); }, revealHero);
 
   media.addEventListener('change', () => {
     if (media.matches) {
       root.classList.remove('motion-enabled');
-      scroll?.destroy();
-      scroll = undefined;
+      revealObserver?.disconnect();
+      revealObserver = undefined;
+      reveals.forEach(element => element.classList.add('is-inview'));
       animations.forEach(animation => animation.cancel());
       entrances.forEach(element => element.classList.remove('hero-enter-pending'));
-    } else startScroll();
+    } else startReveals();
   }, { signal });
 
   // Keyboard navigation should never land on an invisible content block.
@@ -94,7 +100,7 @@ export function initPageMotion() {
     disposed = true;
     finishIntro();
     root.classList.remove('motion-enabled');
-    scroll?.destroy();
+    revealObserver?.disconnect();
     animations.forEach(animation => animation.cancel());
     entrances.forEach(element => element.classList.remove('hero-enter-pending'));
     controller.abort();

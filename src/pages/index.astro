@@ -4,18 +4,22 @@ import HeroPortrait from '../components/HeroPortrait.astro';
 import HeroCta from '../components/HeroCta.astro';
 import WelcomeIntro from '../components/WelcomeIntro.astro';
 import HeroAtmosphere from '../components/HeroAtmosphere.astro';
+import HeroMantraRings from '../components/HeroMantraRings.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import HomeSections from '../components/HomeSections.astro';
+import ToneBackdrop from '../components/ToneBackdrop.astro';
 import '../styles/closing-tone.css';
 ---
 <BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
   <WelcomeIntro />
+  <ToneBackdrop page />
   <SiteHeader />
   <main id="main-content" tabindex="-1">
     <section class="hero" id="home" data-scene="arveen" aria-labelledby="hero-heading">
       <HeroAtmosphere />
       <div class="portrait-stage">
+      <HeroMantraRings />
       <div class="devotion-orbit" aria-hidden="true"><span></span></div>
       <HeroPortrait />
       </div>

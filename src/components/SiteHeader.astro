@@ -1,10 +1,19 @@
 ---
 import PeacockMark from './PeacockMark.astro';
+import ToneBackdrop from './ToneBackdrop.astro';
 const path = Astro.url.pathname;
 const links = [['/', 'Home'], ['/about/', 'My Journey'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/shop/', 'Divine Store'], ['/journal/', 'Journal']];
 ---
 <a class="skip-link" href="#main-content">Skip to content</a>
-<header class="site-header"><div class="header-inner">
+{path === '/' && <span class="header-top-sentinel" data-header-top aria-hidden="true"></span>}
+<header class:list={['site-header', { 'site-header--home': path === '/' }]}>
+{path === '/' && <ToneBackdrop />}
+<div class="header-inner">
   <a href="/" class="brand" aria-label="Arveen Poonia home"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a>
   <nav class="header-nav" aria-label="Primary navigation">{links.map(([href,label]) => <a href={href} aria-current={(href === '/' ? path === '/' : path.startsWith(href)) ? 'page' : undefined}>{label}</a>)}</nav>
 </div></header>
+
+<script>
+  import { initHeaderSurface } from '../scripts/header-surface';
+  initHeaderSurface();
+</script>

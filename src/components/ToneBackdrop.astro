@@ -1,0 +1,5 @@
+---
+interface Props { page?: boolean }
+const { page = false } = Astro.props;
+---
+<div class:list={['tone-backdrop', { 'tone-backdrop--page': page }]} aria-hidden="true"></div>

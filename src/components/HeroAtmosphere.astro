@@ -1,16 +1,63 @@
 <div class="hero-atmosphere" aria-hidden="true">
-  <div class="atmosphere-personal"></div>
-  <div class="atmosphere-divine">
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="lotus-field" width="160" height="160" patternUnits="userSpaceOnUse">
-          <g transform="translate(80 80)" fill="none" stroke="currentColor" stroke-width=".6">
-            {[0, 45, 90, 135, 180, 225, 270, 315].map(angle => <ellipse cx="0" cy="-24" rx="12" ry="30" transform={`rotate(${angle})`} />)}
-            <circle r="7" /><circle r="62" stroke-dasharray="1 7" />
-          </g>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#lotus-field)" />
-    </svg>
-  </div>
+  {['left', 'right'].map(side => (
+    <div class={`liquid-drift liquid-drift--${side}`}>
+      <img class="liquid-texture atmosphere-personal" src={`/images/hero-personal-${side}.webp`} width="480" height="640" alt="" decoding="async" />
+      <img class="liquid-texture atmosphere-divine" src={`/images/hero-divine-${side}.webp`} width="480" height="640" alt="" decoding="async" />
+    </div>
+  ))}
 </div>
+
+<style>
+  .hero-atmosphere {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    contain: paint;
+  }
+  /* Colour, feathering and frost grain are baked into small cached images.
+     Only two bounded layers drift; no live filters, blend modes or masks. */
+  .liquid-drift {
+    position: absolute;
+    top: 6%;
+    width: clamp(360px, 53vw, 850px);
+    height: 90%;
+    animation-name: liquid-drift;
+    animation-duration: 27s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-play-state: paused;
+  }
+  .liquid-drift--left { left: -12%; }
+  .liquid-drift--right { right: -12%; animation-duration: 31s; animation-delay: -12s; animation-direction: alternate-reverse; }
+  .liquid-texture {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    transition: opacity 2.4s ease;
+  }
+  .atmosphere-personal { opacity: 1; }
+  .atmosphere-divine { opacity: 0; }
+  :global(.hero[data-scene='radha-krishna']) .atmosphere-personal { opacity: 0; }
+  :global(.hero[data-scene='radha-krishna']) .atmosphere-divine { opacity: 1; }
+  :global(.hero[data-running='true']) .liquid-drift { animation-play-state: running; }
+  @keyframes liquid-drift {
+    0% { transform: translate3d(-3%, -3%, 0); }
+    48% { transform: translate3d(5%, 2%, 0); }
+    100% { transform: translate3d(1%, -4%, 0); }
+  }
+  @media (max-width: 700px) {
+    .liquid-drift { width: 330px; height: 78%; opacity: .7; }
+    .liquid-drift--left { left: -160px; }
+    .liquid-drift--right { right: -160px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-drift { animation: none; }
+    .liquid-texture { transition: none; }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import PeacockMark from './PeacockMark.astro';
+import ToneBackdrop from './ToneBackdrop.astro';
 const path = Astro.url.pathname;
 const links = [['/', 'Home'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/shop/', 'Store']];
 ---
@@ -8,4 +9,4 @@ const links = [['/', 'Home'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/s
   <div class="footer-links"><a href="/about/">My Journey</a><a href="/journal/">Journal</a><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer">YouTube</a><a href="mailto:arveenpoonia0101@gmail.com">Get in touch</a></div></div>
   <div class="footer-bottom"><span>© {new Date().getFullYear()} Arveen Poonia</span><span>Made with intention. Hare Krishna.</span></div>
 </div></footer>
-<nav class="bottom-nav" aria-label="Mobile navigation">{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>
+<nav class="bottom-nav" aria-label="Mobile navigation">{path === '/' && <ToneBackdrop />}{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>

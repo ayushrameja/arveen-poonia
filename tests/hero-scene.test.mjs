@@ -43,7 +43,8 @@ function fixture(t, { reduced = false, intro = false, frameDecodes = [Promise.re
   return {
     hero, controls, button, panels, copies, dispose,
     finishIntro() { intro = false; document.dispatchEvent(new Event('intro:complete')); },
-    visible(value) { observation([{ isIntersecting: value }]); },
+    visible(value, ratio = value ? 1 : 0) { observation([{ isIntersecting: value, intersectionRatio: ratio }]); },
+    scroll() { document.dispatchEvent(new Event('scroll')); },
     hidden(value) { document.hidden = value; document.dispatchEvent(new Event('visibilitychange')); },
     reduced(value) { media.matches = value; media.dispatchEvent(new Event('change')); },
     get disconnected() { return disconnected; },
@@ -145,4 +146,36 @@ test('the introduction holds Arveen until the full hero entrance has finished', 
   assert.equal(f.hero.dataset.scene, 'arveen');
   t.mock.timers.tick(1);
   assert.equal(f.hero.dataset.scene, 'radha-krishna');
+});
+
+test('a partially visible hero stays quiet and resumes when mostly visible', async t => {
+  const f = fixture(t);
+  await decoded(); f.visible(true, .69);
+  assert.equal(f.hero.dataset.running, 'false');
+  t.mock.timers.tick(20000);
+  assert.equal(f.hero.dataset.scene, 'arveen');
+  f.visible(true, .8);
+  assert.equal(f.hero.dataset.running, 'true');
+});
+
+test('scrolling suspends effects until settling and never overrides manual pause', async t => {
+  const f = fixture(t);
+  await decoded(); f.visible(true);
+  f.scroll();
+  assert.equal(f.hero.dataset.running, 'false');
+  t.mock.timers.tick(120); f.scroll(); t.mock.timers.tick(120);
+  assert.equal(f.hero.dataset.running, 'false');
+  t.mock.timers.tick(60);
+  assert.equal(f.hero.dataset.running, 'true');
+  f.scroll(); click(f.button); t.mock.timers.tick(180);
+  assert.equal(f.hero.dataset.running, 'false');
+  assert.equal(f.button.attributes.get('aria-pressed'), 'true');
+});
+
+test('a pending scroll resume cannot restart a disposed hero', async t => {
+  const f = fixture(t);
+  await decoded(); f.visible(true); f.scroll(); f.dispose();
+  t.mock.timers.tick(30000);
+  assert.equal(f.hero.dataset.running, 'false');
+  assert.equal(f.hero.dataset.scene, 'arveen');
 });
