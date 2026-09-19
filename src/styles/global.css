@@ -142,8 +142,8 @@ h1, .hero-title { margin: 0; font-size: clamp(42px, 4.8vw, 64px); font-weight: 5
   .brand > svg { width: 28px; height: 36px; }
   .wordmark { font-size: 18px; }
   .header-nav { display: none; }
-  .bottom-nav { position: fixed; z-index: 6; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom)); transform: translateX(-50%); display: flex; align-items: center; gap: 2px; padding: 5px; border: 1px solid #dce1d4; border-radius: 999px; background: #faf9f5; box-shadow: 0 4px 24px #263e3312; }
-  .bottom-nav a { padding-inline: 19px; font-size: 12px; }
+  .bottom-nav { position: fixed; z-index: 6; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom)); transform: translateX(-50%); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: min(350px, calc(100% - 24px)); gap: 4px; padding: 5px; border: 1px solid #dce1d4; border-radius: 28px; background: #faf9f5; box-shadow: 0 4px 24px #263e3312; }
+  .bottom-nav a { min-width: 0; padding-inline: 8px; border-radius: 22px; font-size: 12px; }
   .hero { --art-size: min(96vw, clamp(280px, calc(100svh - 440px), 480px)); padding: 80px 20px calc(90px + env(safe-area-inset-bottom)); }
   .portrait-stage { width: var(--art-size); grid-template-columns: 0 var(--art-size) 0; }
   .hero-copy { margin-top: 16px; }
@@ -310,8 +310,6 @@ input:focus-visible, summary:focus-visible { outline: 2px solid #326f65; outline
  .product-card h3 { font-size: 16px; }
  .product-card p { font-size: 12px; }
  .product-card .text-link { font-size: 11px; }
- .bottom-nav { max-width: calc(100% - 24px); width: 350px; justify-content: space-around; }
- .bottom-nav a { padding-inline: 14px; }
  .inner-page { padding-top: 65px; }
  .page-intro { padding-block: 30px 40px; }
  .back-link { margin-bottom: 24px; }

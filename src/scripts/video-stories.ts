@@ -15,7 +15,7 @@ export function initVideoStories(section: HTMLElement) {
   const toggle = section.querySelector<HTMLButtonElement>('[data-story-playback]')!;
   const toggleLabel = section.querySelector<HTMLElement>('[data-playback-label]')!;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const desktop = matchMedia('(min-width: 1000px) and (min-height: 680px)');
+  const desktop = matchMedia('(min-width: 1000px)');
   const controller = new AbortController();
   const { signal } = controller;
   const visibleFilms = new Set<number>();
@@ -151,7 +151,16 @@ export function initVideoStories(section: HTMLElement) {
 
   function measure() {
     if (disposed) return;
-    const nextPinned = desktop.matches && !reduced.matches;
+    // Measure the stacked composition before pinning: short screens and enlarged
+    // text keep the full-width swipe layout so every caption and action is reachable.
+    section.toggleAttribute('data-stories-pinned', !reduced.matches);
+    const stageStyles = getComputedStyle(stage);
+    const top = parseFloat(stageStyles.top) || 0;
+    const viewportHeight = document.documentElement.clientHeight;
+    const nextPinned = !reduced.matches && (desktop.matches
+      ? viewportHeight >= 680
+      : stage.scrollHeight <= parseFloat(stageStyles.minHeight) + 1);
+    section.toggleAttribute('data-stories-pinned', nextPinned);
     if (nextPinned !== pinned) {
       pinned = nextPinned;
       section.toggleAttribute('data-stories-pinned', pinned);
@@ -161,9 +170,11 @@ export function initVideoStories(section: HTMLElement) {
       if (pinned) track.scrollLeft = 0;
     }
     if (pinned) {
-      // CSS uses 16px section padding and leaves room for the existing fixed header.
-      start = scrollArea.getBoundingClientRect().top + window.scrollY + 16 - 96;
-      distance = Math.max(1, scrollArea.offsetHeight - 32 - stage.offsetHeight);
+      const scrollStyles = getComputedStyle(scrollArea);
+      const paddingTop = parseFloat(scrollStyles.paddingTop);
+      const paddingBottom = parseFloat(scrollStyles.paddingBottom);
+      start = scrollArea.getBoundingClientRect().top + window.scrollY + paddingTop - top;
+      distance = Math.max(1, scrollArea.offsetHeight - paddingTop - paddingBottom - stage.offsetHeight);
     }
     schedule();
   }
