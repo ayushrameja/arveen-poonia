@@ -5,6 +5,8 @@ import { mkdir } from 'node:fs/promises';
 // blending several full-screen layers on every animation frame.
 const width = 480;
 const height = 640;
+// Richer colour pools, with the same transparent edges and clear central copy area.
+const colorStrength = 1.6;
 const directory = new URL('../public/images/', import.meta.url);
 await mkdir(directory, { recursive: true });
 const palettes = {
@@ -32,7 +34,7 @@ for (const [name, pools] of Object.entries(palettes)) {
     const grain = ((seed / 4294967296) - .5) * 12;
     const offset = (y * width + x) * 4;
     rgb.forEach((channel, i) => { pixels[offset + i] = Math.max(0, Math.min(255, channel / alpha + grain)); });
-    pixels[offset + 3] = Math.round(Math.min(.6, alpha) * fade * 255);
+    pixels[offset + 3] = Math.round(Math.min(.72, alpha * colorStrength) * fade * 255);
   }
   await sharp(pixels, { raw: { width, height, channels: 4 } })
     .webp({ quality: 88, alphaQuality: 95 }).toFile(new URL(`hero-${name}.webp`, directory).pathname);

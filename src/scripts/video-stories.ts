@@ -164,7 +164,6 @@ export function initVideoStories(section: HTMLElement) {
       // CSS uses 16px section padding and leaves room for the existing fixed header.
       start = scrollArea.getBoundingClientRect().top + window.scrollY + 16 - 96;
       distance = Math.max(1, scrollArea.offsetHeight - 32 - stage.offsetHeight);
-      stage.style.setProperty('--story-film-height', `${films[0].offsetHeight}px`);
     }
     schedule();
   }
@@ -210,6 +209,11 @@ export function initVideoStories(section: HTMLElement) {
   }, { threshold: 0.05 });
   observer.observe(scrollArea);
   films.forEach(film => observer.observe(film));
+  // Start the caption stagger when its text enters view, including on first arrival.
+  const captionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => entry.target.toggleAttribute('data-inview', entry.isIntersecting));
+  }, { threshold: .15 });
+  captions.forEach(caption => captionObserver.observe(caption));
   // Start fetching before the section enters view, without autoplaying offscreen.
   const preloadObserver = new IntersectionObserver(entries => {
     inPreloadRange = entries[0].isIntersecting;
@@ -249,6 +253,7 @@ export function initVideoStories(section: HTMLElement) {
     disposed = true;
     controller.abort();
     observer.disconnect();
+    captionObserver.disconnect();
     preloadObserver.disconnect();
     resizeObserver.disconnect();
     cancelAnimationFrame(frame);
@@ -258,10 +263,9 @@ export function initVideoStories(section: HTMLElement) {
       film.style.removeProperty('--film-x');
       film.style.removeProperty('--film-y');
     });
-    captions.forEach(caption => { caption.inert = false; caption.removeAttribute('aria-hidden'); });
+    captions.forEach(caption => { caption.inert = false; caption.removeAttribute('aria-hidden'); caption.removeAttribute('data-inview'); });
     section.removeAttribute('data-stories-ready');
     section.removeAttribute('data-stories-pinned');
-    stage.style.removeProperty('--story-film-height');
     nav.hidden = true;
     progressRail.hidden = true;
     delete section.dataset.storyActive;

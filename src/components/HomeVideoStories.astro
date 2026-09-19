@@ -3,14 +3,15 @@ import videos from '../data/videos.json';
 import '../styles/video-stories.css';
 
 const chapters = [
-  { ...videos[0], label: 'Everyday rhythms', heading: 'Beyond the perfect routine.', description: 'Two years of trying to get it right. A reflection on routines and the everyday effort behind them.', file: 'perfect-routine' },
-  { ...videos[1], label: 'The yoga journey', heading: 'A practice. A path.', description: 'Arveen shares his journey with yoga—and what it means to make a living from the practice.', file: 'yoga-journey' },
-  { ...videos[2], label: 'A life of bhakti', heading: 'Devotion in the everyday.', description: 'Join Arveen for Jagannath Ji’s Snana Yatra, a glimpse into the traditions that shape his days.', file: 'snana-yatra' },
+  { ...videos[0], label: 'Everyday rhythms', heading: 'Beyond the perfect routine.', description: 'Two years of trying to get it right. A reflection on routines and the everyday effort behind them.', reflection: 'An invitation to rethink what a sustainable routine looks like for you.', file: 'perfect-routine' },
+  { ...videos[1], label: 'The yoga journey', heading: 'A practice. A path.', description: 'Arveen shares his journey with yoga—and what it means to make a living from the practice.', reflection: 'A moment to consider how the practice you love can find a place in your everyday life.', file: 'yoga-journey' },
+  { ...videos[2], label: 'A life of bhakti', heading: 'Devotion in the everyday.', description: 'Join Arveen for Jagannath Ji’s Snana Yatra, a glimpse into the traditions that shape his days.', reflection: 'An invitation to notice the rituals that bring you a little closer to devotion.', file: 'snana-yatra' },
 ];
 ---
 <section class="watch-section watch-stories" id="explore" aria-labelledby="start-heading" data-video-stories>
   <div class="story-scroll" data-story-scroll>
     <div class="story-stage">
+      <h2 class="story-introduction" id="start-heading">A little curiosity. A new perspective.</h2>
       <div class="story-atmosphere" aria-hidden="true">
         <svg class="story-texture" data-story-texture="0" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
           {Array.from({ length: 12 }, (_, i) => <path d={`M ${-300 + i * 26} -80 C ${500 + i * 20} 180, ${-420 + i * 28} 510, ${120 + i * 24} 980 M ${1260 + i * 24} -80 C ${900 + i * 25} 240, ${1690 + i * 22} 540, ${1150 + i * 28} 980`} />)}
@@ -32,9 +33,6 @@ const chapters = [
           </button>
         ))}
       </nav>
-      <div class="story-heading">
-        <h2 id="start-heading">A little curiosity.<br /><span>A new perspective.</span></h2>
-      </div>
       <div class="story-track" data-story-track>
         {chapters.map((chapter, index) => (
           <article class="video-story" id={`video-story-${index}`} data-story-card={index} aria-labelledby={`video-story-title-${index}`}>
@@ -45,6 +43,7 @@ const chapters = [
             <div class="story-caption" data-story-caption={index}>
               <h3 id={`video-story-title-${index}`}>{chapter.heading}</h3>
               <p class="story-description">{chapter.description}</p>
+              <p class="story-reflection">{chapter.reflection}</p>
               <a class="story-watch" href={`https://www.youtube.com/watch?v=${chapter.id}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch ${chapter.title} on YouTube (opens in a new tab)`}>
                 Watch full video
               </a>
