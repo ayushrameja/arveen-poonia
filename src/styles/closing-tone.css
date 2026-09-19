@@ -37,7 +37,7 @@
 .home-tone-enabled[data-paper-tone='evening'] .tone-backdrop::after { opacity: 1; }
 .home-tone-enabled .site-header[data-at-top='true'] > .tone-backdrop { display: none; }
 /* One viewport-sized surface shows through the chapters; cards keep their own fills. */
-:root.home-tone-enabled :is(.hero, .home-story, .home-practice, .journal-invite, .site-footer) {
+:root.home-tone-enabled :is(.hero, .home-story, .home-practice) {
   background-color: transparent;
 }
 .home-tone-enabled.home-evening {
@@ -48,8 +48,6 @@
   --closing-line: #536c5d;
   --closing-nav: #38574a;
 }
-.home-tone-enabled .journal-invite,
-.home-tone-enabled .site-footer,
 .home-tone-enabled .site-header,
 .home-tone-enabled .bottom-nav {
   background-color: var(--closing-paper);
@@ -74,33 +72,20 @@
 .home-evening .watch-next .video-card:hover {
   background-color: color-mix(in srgb, var(--closing-paper), white 24%);
 }
-.home-evening :is(.story-action, .practice-action) .hero-cta {
+.home-evening .practice-action .hero-cta {
   background-color: #faf9f0;
   border-color: #faf9f0;
   color: #203e35;
 }
-.home-evening :is(.story-action, .practice-action) .hero-cta::before {
+.home-evening .practice-action .hero-cta::before {
   background-color: #dfc993;
 }
 .home-evening :is(.watch-section, .home-story, .home-practice) a:focus-visible {
   outline-color: #dfc993;
 }
-.home-tone-enabled .journal-invite {
-  padding-block: clamp(90px, 12vw, 170px);
-  border-top-color: transparent;
-}
-.home-tone-enabled .journal-invite h2 {
-  font-size: clamp(38px, 5.4vw, 76px);
-  line-height: 1.08;
-  letter-spacing: -.055em;
-}
-.home-tone-enabled .journal-invite .eyebrow,
 :root.home-tone-enabled .home-collection .collection-heading h2 span {
   color: var(--closing-accent);
 }
-.home-tone-enabled .journal-invite p:not(.eyebrow),
-.home-tone-enabled .footer-top p,
-.home-tone-enabled .footer-bottom,
 :root.home-tone-enabled .home-collection .collection-note,
 .home-tone-enabled .header-nav a,
 .home-tone-enabled .bottom-nav a {
@@ -124,13 +109,6 @@
 }
 .home-tone-enabled.home-evening .collection-intro .hero-cta--secondary:hover {
   background-color: var(--closing-nav);
-}
-.home-tone-enabled .journal-invite .text-link {
-  color: var(--closing-ink);
-  text-decoration-color: var(--closing-accent);
-}
-.home-tone-enabled .journal-invite .text-link:hover {
-  color: var(--closing-accent);
 }
 .home-evening :is(.journal-invite, .site-footer, .site-header, .bottom-nav, .home-collection) a:focus-visible {
   outline-color: #dfc993;

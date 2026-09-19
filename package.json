@@ -9,7 +9,7 @@
     "test": "node --test tests/*.test.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "assets:portraits": "node scripts/generate-portraits.mjs && node scripts/generate-portrait-avif.mjs",
+    "assets:portraits": "node scripts/generate-portraits.mjs && node scripts/generate-portrait-avif.mjs && node scripts/generate-hero-portraits.mjs",
     "assets:ascii": "node scripts/generate-ascii.mjs && node scripts/generate-profile.mjs && node scripts/generate-radha-krishna.mjs",
     "perf:motion": "node scripts/profile-motion.mjs",
     "perf:audit": "node scripts/audit-performance.mjs"

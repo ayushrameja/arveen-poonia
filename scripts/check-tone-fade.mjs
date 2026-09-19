@@ -18,6 +18,28 @@ try {
     await page.waitForFunction(tone => document.documentElement.dataset.paperTone === tone, {}, tone);
   };
   const opacity = pseudo => page.$eval('.tone-backdrop--page', (el, pseudo) => Number(getComputedStyle(el, pseudo).opacity), pseudo);
+  // Both the preferred format and fallback must reveal the canvas around the
+  // subject; an opaque cream pixel recreates the fast-scroll white rectangle.
+  const portraitAlpha = await page.$$eval('[data-portrait-frame]', async frames => {
+    const results = [];
+    for (const frame of frames) {
+      for (const src of new Set([frame.currentSrc, frame.src])) {
+        const image = new Image();
+        image.src = src;
+        await image.decode();
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 100;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0, 100, 100);
+        results.push({ src, corners: [context.getImageData(2, 2, 1, 1).data[3], context.getImageData(97, 2, 1, 1).data[3]], subject: context.getImageData(50, 50, 1, 1).data[3] });
+      }
+    }
+    return results;
+  });
+  for (const { src, corners, subject } of portraitAlpha) {
+    assert.deepEqual(corners, [0, 0], `Transparent hero background required: ${src}`);
+    assert.ok(subject >= 250, `Portrait foreground must remain opaque within codec rounding: ${src}`);
+  }
   await jump('.watch-section', 'saffron');
   assert.equal(await page.$eval('.watch-section', el => getComputedStyle(el).borderTopWidth), '0px', 'No section border may expose a seam during the background fade');
   await page.waitForFunction(() => {
@@ -28,6 +50,16 @@ try {
   assert.equal(await page.$eval('.watch-section', el => Number(getComputedStyle(el, '::before').opacity)), 1);
   assert.equal(await opacity('::before'), 1, 'The exposed page canvas shares the yellow fade');
   assert.equal(await page.$eval('.hero', el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', 'The hero tail must not cover the shared canvas');
+  await jump('.hero', 'light');
+  await page.waitForFunction(() => {
+    const yellow = Number(getComputedStyle(document.querySelector('.tone-backdrop--page'), '::before').opacity);
+    return yellow > .1 && yellow < .9;
+  });
+  await page.screenshot({ path: new URL('tone-fade-hero-return.png', directory).pathname });
+  await wait(750);
+  assert.equal(await opacity('::before'), 0, 'Fast return retains the yellow-to-light transition');
+  await jump('.watch-section', 'saffron');
+  await wait(750);
   // Reproduce the boundary view: the next section is visible, but has not
   // crossed the 35% line that starts the shared fade back to light.
   await page.evaluate(() => window.scrollTo({ top: document.querySelector('.home-story').getBoundingClientRect().top + scrollY - innerHeight * .75, behavior: 'instant' }));

@@ -1,12 +1,31 @@
 ---
 import PeacockMark from './PeacockMark.astro';
 import ToneBackdrop from './ToneBackdrop.astro';
+import '../styles/footer.css';
 const path = Astro.url.pathname;
 const links = [['/', 'Home'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/shop/', 'Store']];
 ---
-<footer class="site-footer"><div class="content-wrap">
-  <div class="footer-top"><div><a class="brand" href="/"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a><p>A little devotion. A little discipline.<br />A more conscious everyday life.</p></div>
-  <div class="footer-links"><a href="/about/">My Journey</a><a href="/journal/">Journal</a><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer">YouTube</a><a href="mailto:arveenpoonia0101@gmail.com">Get in touch</a></div></div>
-  <div class="footer-bottom"><span>© {new Date().getFullYear()} Arveen Poonia</span><span>Made with intention. Hare Krishna.</span></div>
-</div></footer>
+<footer class:list={['site-footer', { 'site-footer--home': path === '/' }]}>
+  <picture class="footer-galaxy" aria-hidden="true">
+    <source media="(max-width: 700px)" srcset="/images/footer-galaxy-mobile.webp" />
+    <img src="/images/footer-galaxy.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
+  </picture>
+  <div class="content-wrap footer-content">
+    {path === '/' && <section class="journal-invite" data-closing-tone aria-labelledby="footer-journal-heading">
+      <div class="journal-meta"><p class="eyebrow">05 / The journal</p><span class="journal-pause"><span aria-hidden="true">✧</span> A moment of stillness</span></div>
+      <div class="journal-copy">
+        <h2 id="footer-journal-heading">For the moments<br />between the videos.</h2>
+        <p>Short reads, thoughtful questions,<br class="journal-mobile-break" /> and a little room to reflect.</p>
+        <a class="journal-link" href="/journal/">Take a moment to read <span aria-hidden="true">↗</span></a>
+      </div>
+      <span class="journal-orbit" aria-hidden="true"><span>Stay curious. Stay present.</span></span>
+    </section>}
+    <div class="footer-top">
+      <div class="footer-brand"><a class="brand" href="/"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a><p>A little devotion. A little discipline.<br />A more conscious everyday life.</p></div>
+      <nav class="footer-links" aria-label="Footer explore"><h2>Explore</h2><a href="/about/">My Journey</a><a href="/journal/">Journal</a><a href="/yoga/">Yoga & practice</a></nav>
+      <nav class="footer-links" aria-label="Footer connect"><h2>Connect</h2><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer">YouTube <span aria-hidden="true">↗</span></a><a href="mailto:arveenpoonia0101@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></nav>
+    </div>
+    <div class="footer-bottom"><span>© {new Date().getFullYear()} Arveen Poonia</span><span class="footer-signoff"><span aria-hidden="true">✧</span> Made with intention. Hare Krishna.</span></div>
+  </div>
+</footer>
 <nav class="bottom-nav" aria-label="Mobile navigation">{path === '/' && <ToneBackdrop />}{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>

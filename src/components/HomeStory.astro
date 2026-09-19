@@ -63,7 +63,12 @@ const threads = [
   .story-threads h3 { margin: 0; font-size: 18px; font-weight: 500; letter-spacing: -.025em; }
   .story-threads p { margin: 6px 0 0; font-size: 13px; line-height: 1.65; }
   .story-action { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: auto; }
-  .story-action :global(.hero-cta) { margin-top: 0; }
+  .story-action :global(.hero-cta) { margin-top: 0; background: var(--home-card-olive); border-color: var(--home-card-olive); color: var(--home-card-cream); }
+  .story-action :global(.hero-cta::before) { background: var(--home-card-olive-hover); }
+  .story-action :global(.hero-cta:focus-visible) { outline-color: var(--home-card-olive); }
+  @media (hover: hover) {
+    .story-action :global(.hero-cta:hover) { background: var(--home-card-olive-hover); border-color: var(--home-card-olive-hover); box-shadow: 0 4px 10px #203e3512; }
+  }
   .story-action > span { color: var(--closing-muted, #657060); font-size: 12px; line-height: 1.65; }
   @media (min-width: 701px) and (max-width: 1050px) {
     .story-image { min-height: 0; }

@@ -4,7 +4,7 @@ import { initWelcomeIntro } from './welcome-intro';
 const revealSelectors = [
   '.page-intro > *', '.watch-heading', '.video-card', '.product-card',
   '.story-portrait', '.story-copy > *', '.practice-split > *', '.section-heading',
-  '.journal-invite .content-wrap > *', '.values-grid > *', '.sage-section .content-wrap > .eyebrow',
+  '.journal-meta', '.journal-copy > *', '.values-grid > *', '.sage-section .content-wrap > .eyebrow',
   '.sage-section .content-wrap > h2', '.yoga-overview > *', '.batch-card', '.plan-grid > *',
   '.faq-layout > div:first-child', '.faq-list > details', '.shop-note', '.store-story > *',
   '.library-controls', '.channel-invite', '.journal-row', '.journal-closing > *',

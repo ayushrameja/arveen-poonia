@@ -1,20 +1,20 @@
 ---
 // Match --art-size in global.css so the browser chooses an appropriate raster.
 const sizes = '(max-width: 700px) min(96vw, clamp(280px, calc(100svh - 440px), 480px)), (max-width: 1050px) clamp(370px, calc(100svh - 390px), 540px), clamp(370px, calc(100svh - 390px), 700px)';
-const avifSources = (name: string) => [640, 768, 960, 1280].map(width => `/images/${name}-portrait-${width}.avif ${width}w`).join(', ');
+const avifSources = (name: string) => [640, 768, 960, 1280].map(width => `/images/hero-${name}-portrait-${width}.avif ${width}w`).join(', ');
 ---
 <figure class="divine-art" aria-label="Portraits of Arveen and Radha–Krishna">
   <div class="portrait-position">
     <div class="portrait-scene" data-scene-panel="arveen">
       <picture>
         <source type="image/avif" srcset={avifSources('arveen')} sizes={sizes} />
-        <img class="hero-portrait" data-portrait-frame src="/images/arveen-portrait-1280.webp" srcset="/images/arveen-portrait-640.webp 640w, /images/arveen-portrait-1280.webp 1280w" sizes={sizes} alt="Arveen Poonia smiling, with his shoulders and lilac kurta visible." width="1280" height="1280" fetchpriority="high" decoding="async" />
+        <img class="hero-portrait" data-portrait-frame src="/images/hero-arveen-portrait-1280.webp" srcset="/images/hero-arveen-portrait-640.webp 640w, /images/hero-arveen-portrait-1280.webp 1280w" sizes={sizes} alt="Arveen Poonia smiling, with his shoulders and lilac kurta visible." width="1280" height="1280" fetchpriority="high" decoding="async" />
       </picture>
     </div>
     <div class="portrait-scene" data-scene-panel="radha-krishna" aria-hidden="true">
       <picture>
         <source type="image/avif" srcset={avifSources('radha-krishna')} sizes={sizes} />
-        <img class="hero-portrait" data-portrait-frame src="/images/radha-krishna-portrait-1280.webp" srcset="/images/radha-krishna-portrait-640.webp 640w, /images/radha-krishna-portrait-1280.webp 1280w" sizes={sizes} alt="Radha Rani in her rose-pink veil beside Lord Krishna holding his golden flute, both wearing jeweled crowns and flower garlands." width="1280" height="1280" fetchpriority="low" decoding="async" />
+        <img class="hero-portrait" data-portrait-frame src="/images/hero-radha-krishna-portrait-1280.webp" srcset="/images/hero-radha-krishna-portrait-640.webp 640w, /images/hero-radha-krishna-portrait-1280.webp 1280w" sizes={sizes} alt="Radha Rani in her rose-pink veil beside Lord Krishna holding his golden flute, both wearing jeweled crowns and flower garlands." width="1280" height="1280" fetchpriority="low" decoding="async" />
       </picture>
     </div>
   </div>
