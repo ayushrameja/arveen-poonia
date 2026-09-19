@@ -1,0 +1,52 @@
+<aside class="creator-notice" aria-labelledby="creator-notice-title" hidden>
+  <button class="creator-notice-close" type="button" aria-label="Dismiss website notice">×</button>
+  <p id="creator-notice-title">A little note from the creator</p>
+  <p class="creator-notice-description">An unofficial website, made by Ayush to share Arveen’s work.</p>
+  <a href="#creator-note" class="creator-notice-link"><span class="creator-notice-link-label">Read my note</span><span aria-hidden="true">↗</span></a>
+</aside>
+
+<style>
+  .creator-notice { position: fixed; z-index: 7; right: 24px; bottom: 24px; width: min(340px, calc(100% - 32px)); padding: 20px 44px 14px 22px; border: 1px solid #d9ddcb; border-radius: 16px; background: #faf9f5; color: #203c36; box-shadow: 0 8px 32px #173f351a; }
+  :global(.intro-active) .creator-notice { display: none; }
+  #creator-notice-title { margin: 0 0 8px; font-size: 14px; font-weight: 500; line-height: 1.4; }
+  .creator-notice-description { margin: 0; color: #59675c; font-size: 12px; line-height: 1.65; }
+  .creator-notice-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 4px; font-size: 12px; text-decoration: none; }
+  .creator-notice-link-label { text-decoration: underline; text-underline-offset: 4px; }
+  .creator-notice-close { position: absolute; top: 4px; right: 4px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: #59675c; font-size: 23px; cursor: pointer; }
+  .creator-notice-close:hover { background: #e9eee3; }
+  @media (max-width: 700px) {
+    :global(.hero:has(.creator-notice:not([hidden]))) { --art-size: min(96vw, clamp(220px, calc(100svh - 580px), 340px)); }
+    .creator-notice { position: relative; inset: auto; width: min(340px, 100%); margin: 24px auto 0; flex-shrink: 0; padding-block: 16px 10px; }
+  }
+</style>
+
+<script>
+  import { onPageReady } from '../scripts/page-ready';
+  let dismissed = false;
+  const stop = onPageReady(() => {
+    const notice = document.querySelector<HTMLElement>('.creator-notice');
+    const note = document.getElementById('creator-note');
+    if (!notice || !note) return;
+    try { dismissed ||= sessionStorage.getItem('arveen:creator-notice-dismissed') === 'true'; } catch { /* In-memory fallback. */ }
+    if (dismissed || location.hash === '#creator-note') return;
+    notice.hidden = false;
+    const controller = new AbortController();
+    const dismiss = () => {
+      notice.hidden = true;
+      dismissed = true;
+      try { sessionStorage.setItem('arveen:creator-notice-dismissed', 'true'); } catch { /* Optional persistence. */ }
+    };
+    notice.querySelector('button')?.addEventListener('click', () => {
+      dismiss();
+      document.getElementById('main-content')?.focus({ preventScroll: true });
+    }, { signal: controller.signal });
+    notice.querySelector('a')?.addEventListener('click', () => {
+      dismiss();
+      note.focus({ preventScroll: true });
+    }, { signal: controller.signal });
+    const cleanup = () => controller.abort();
+    document.addEventListener('astro:before-swap', cleanup, { once: true, signal: controller.signal });
+    if (import.meta.hot) import.meta.hot.dispose(cleanup);
+  });
+  if (import.meta.hot) import.meta.hot.dispose(stop);
+</script>

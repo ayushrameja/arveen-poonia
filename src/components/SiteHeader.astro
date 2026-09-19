@@ -1,20 +1,21 @@
 ---
 import PeacockMark from './PeacockMark.astro';
 import ToneBackdrop from './ToneBackdrop.astro';
-interface Props { breadcrumb?: string; }
-const { breadcrumb } = Astro.props;
+interface Props { breadcrumb?: string; breadcrumbParent?: { label: string; href: string }; }
+const { breadcrumb, breadcrumbParent } = Astro.props;
 const Identity = breadcrumb ? 'nav' : 'div';
 const path = Astro.url.pathname;
 const links = [['/', 'Home'], ['/about/', 'My Journey'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/shop/', 'Divine Store'], ['/journal/', 'Journal']];
 ---
 <a class="skip-link" href="#main-content">Skip to content</a>
 {path === '/' && <span class="header-top-sentinel" data-header-top aria-hidden="true"></span>}
-<header class:list={['site-header', { 'site-header--home': path === '/' }]}>
-{path === '/' && <ToneBackdrop />}
+<header class:list={['site-header', { 'site-header--home': path === '/', 'site-header--nested': Boolean(breadcrumbParent) }]}>
+<ToneBackdrop />
 <div class="header-inner">
-  <Identity class="header-identity" aria-label={breadcrumb ? 'Breadcrumb' : undefined}>
+  <Identity class:list={['header-identity', { 'header-identity--nested': Boolean(breadcrumbParent) }]} aria-label={breadcrumb ? 'Breadcrumb' : undefined}>
     <a href="/" class="brand" aria-label="Arveen Poonia home"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a>
-    {breadcrumb && <><span class="header-crumb-divider" aria-hidden="true">/</span><span class="header-crumb" aria-current="page">{breadcrumb}</span></>}
+    {breadcrumbParent && <><span class="header-crumb-divider" aria-hidden="true">/</span><a class="header-crumb header-crumb--parent" href={breadcrumbParent.href}>{breadcrumbParent.label}</a></>}
+    {breadcrumb && <><span class:list={['header-crumb-divider', { 'header-crumb-divider--nested': Boolean(breadcrumbParent) }]} aria-hidden="true">/</span><span class="header-crumb" aria-current="page">{breadcrumb}</span></>}
   </Identity>
   <nav class="header-nav" aria-label="Primary navigation">{links.map(([href,label]) => <a href={href} aria-current={(href === '/' ? path === '/' : path.startsWith(href)) ? 'page' : undefined}>{label}</a>)}</nav>
 </div></header>
@@ -22,7 +23,25 @@ const links = [['/', 'Home'], ['/about/', 'My Journey'], ['/explore/', 'Explore'
 <style>
   .header-identity { display: flex; align-items: center; gap: 16px; min-width: 0; }
   .header-crumb-divider { color: #a2aa97; font-size: 21px; font-weight: 400; }
-  .header-crumb { color: #59675c; font-size: 13px; line-height: 1.4; }
+  .header-crumb { color: var(--closing-muted, #59675c); font-size: 13px; line-height: 1.4; }
+  /* Nested article trails stay in flow so wrapped titles never cover the article. */
+  .site-header--nested { position: sticky; inset: auto; top: 0; }
+  .header-identity--nested { flex: 1; gap: 12px; }
+  .header-identity--nested .header-crumb--parent { flex-shrink: 0; display: inline-flex; align-items: center; min-height: 44px; }
+  .header-identity--nested .header-crumb[aria-current] { max-width: 240px; font-size: 12px; }
+  .header-identity--nested .header-crumb--parent:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .site-header--nested .header-nav { flex-shrink: 0; }
+  @media (max-width: 1150px) and (min-width: 701px) {
+    .site-header--nested .header-inner { flex-wrap: wrap; gap: 0; padding-block: 8px; }
+    .header-identity--nested { flex-basis: 100%; }
+    .header-identity--nested .header-crumb[aria-current] { max-width: none; }
+    .site-header--nested .header-nav { margin-left: auto; }
+  }
+  @media (max-width: 700px) {
+    .header-identity--nested { flex-wrap: wrap; gap: 0 12px; }
+    .header-identity--nested .header-crumb[aria-current] { flex-basis: 100%; max-width: none; margin-top: 2px; font-size: 11px; }
+    .header-crumb-divider--nested { display: none; }
+  }
   @media (max-width: 1150px) and (min-width: 701px) {
     .header-identity { gap: 10px; }
     .header-identity:has(.header-crumb) .wordmark { font-size: 17px; }

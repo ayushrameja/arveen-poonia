@@ -7,5 +7,5 @@ const {video,featured=false,poster,summary}=Astro.props;
     <img src={poster || `/images/videos/${video.id}.webp`} alt="" width={poster ? 960 : 480} height={poster ? 540 : 270} loading={featured ? 'eager' : 'lazy'} fetchpriority={featured ? 'high' : undefined} decoding="async" />
     <span class="play-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 5v14l11-7z" /></svg></span>
   </div>
-  <div class="video-copy"><p class="eyebrow">{featured && <span class="video-feature-label">START HERE</span>}{video.category}</p><h3>{video.title}</h3>{summary && <p class="video-summary">{summary}</p>}<span class="video-watch-label">Watch on YouTube <span class="video-watch-arrow" aria-hidden="true">↗</span></span></div>
+  <div class="video-copy"><p class="eyebrow">{featured && <span class="video-feature-label">START HERE</span>}{video.category}</p><h3>{video.title}</h3>{summary && <p class="video-summary">{summary}</p>}<span class="video-watch-label"><span class="link-label">Watch on YouTube</span><span class="video-watch-arrow" aria-hidden="true">↗</span></span></div>
 </a>

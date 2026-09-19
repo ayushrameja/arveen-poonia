@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import '../styles/route-transitions.css';
+import '../styles/closing-tone.css';
+import ToneBackdrop from '../components/ToneBackdrop.astro';
 import { ClientRouter } from 'astro:transitions';
 
 const routeTransition = {
@@ -61,14 +63,16 @@ const preventIndexing = noindex || !Astro.site;
     {socialImage && <meta name="twitter:image" content={socialImage} />}
     {socialImage && <meta name="twitter:image:alt" content={imageAlt} />}
   </head>
-  <body>
+  <body data-page={Astro.url.pathname === "/" ? "home" : "interior"}>
+    <ToneBackdrop page />
     <slot />
   </body>
 </html>
 
 <script>
+  import { initClosingTone } from '../scripts/closing-tone';
   import { initPageMotion } from '../scripts/page-motion';
   import { onPageReady } from '../scripts/page-ready';
-  const stop = onPageReady(initPageMotion);
+  const stop = onPageReady(() => { initPageMotion(); initClosingTone(); });
   if (import.meta.hot) import.meta.hot.dispose(stop);
 </script>

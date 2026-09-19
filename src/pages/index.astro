@@ -8,12 +8,10 @@ import HeroMantraRings from '../components/HeroMantraRings.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import HomeSections from '../components/HomeSections.astro';
-import ToneBackdrop from '../components/ToneBackdrop.astro';
-import '../styles/closing-tone.css';
+import CreatorNotice from '../components/CreatorNotice.astro';
 ---
 <BaseLayout title="Arveen Poonia — Bhakti, yoga & conscious living">
   <WelcomeIntro />
-  <ToneBackdrop page />
   <SiteHeader />
   <main id="main-content" tabindex="-1">
     <section class="hero" id="home" data-scene="arveen" aria-labelledby="hero-heading">
@@ -41,6 +39,7 @@ import '../styles/closing-tone.css';
           <HeroCta href="/about/" label="My Journey" secondary />
         </div>
       </div>
+      <CreatorNotice />
     </section>
     <HomeSections />
   </main>
@@ -48,12 +47,10 @@ import '../styles/closing-tone.css';
 </BaseLayout>
 <script>
   import { initHeroScene } from '../scripts/hero-scene';
-  import { initClosingTone } from '../scripts/closing-tone';
   import { onPageReady } from '../scripts/page-ready';
   function initHome() {
     const hero = document.querySelector<HTMLElement>('.hero');
     if (hero) initHeroScene(hero);
-    initClosingTone();
   }
   const stop = onPageReady(initHome);
   if (import.meta.hot) import.meta.hot.dispose(stop);

@@ -37,7 +37,8 @@
 .journey-story-copy { max-width: 535px; padding-top: 4px; }
 .journey-story-copy p { margin: 0 0 18px; font-size: 16px; line-height: 1.85; color: var(--journey-muted); }
 .journey-story-copy p:last-child { margin-bottom: 0; }
-.journey-story-copy a { color: #203e35; text-decoration: underline; text-decoration-color: #adb59c; text-underline-offset: 4px; }
+.journey-story-copy a { color: #203e35; }
+.journey-story-copy a > .link-label { text-decoration: underline; text-decoration-color: #adb59c; text-underline-offset: 4px; }
 .journey-threads { background: #eeeee4; border-block: 1px solid var(--journey-line); padding-block: 72px 28px; }
 .journey-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 36px; }
 .journey-section-heading > p { font-size: 13px; line-height: 1.8; color: var(--journey-muted); margin: 0 0 4px; }
@@ -76,7 +77,7 @@
 .journey-film-caption { position: absolute; z-index: 1; bottom: 24px; left: 24px; right: 24px; display: flex; justify-content: space-between; gap: 12px; color: #faf7e9; font-size: 10px; }
 .journey-film-caption > span:first-child { letter-spacing: .12em; }
 .journey-watch-copy > p:not(.journey-kicker) { max-width: 410px; margin: 24px 0; color: var(--journey-muted); font-size: 15px; line-height: 1.8; }
-.journey-more { display: flex; align-items: center; gap: 14px; width: fit-content; min-height: 44px; margin-top: 12px; color: #5f7059; font-size: 12px; }
+.journey-more { display: flex; align-items: center; gap: 6px; width: fit-content; min-height: 44px; margin-top: 12px; color: #5f7059; font-size: 12px; }
 @media (hover: hover) {
   .journey-index a:hover { background: #eff0e6; }
   .journey-index a:hover .journey-index-arrow { transform: translate(3px, 3px); }
@@ -84,7 +85,7 @@
   .journey-thread:hover .journey-thread-action > span { transform: rotate(45deg); }
   .journey-film:hover img { transform: scale(1.035); }
   .journey-film:hover .journey-film-play { transform: scale(1.08); }
-  .journey-more:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .journey-more:hover > .link-label { text-decoration: underline; text-underline-offset: 4px; }
 }
 @media (max-width: 1050px) {
   .journey-hero { gap: 24px; padding-top: 46px; }
@@ -137,3 +138,5 @@
 @media (prefers-reduced-motion: reduce) {
   .journey-thread:hover, .journey-film:hover img, .journey-film:hover .journey-film-play { transform: none; }
 }
+
+.journey-story-copy a > [aria-hidden] { display: inline-block; margin-left: 6px; }

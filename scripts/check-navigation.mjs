@@ -44,6 +44,24 @@ async function move(page, selector, path) {
   await page.waitForFunction(() => !document.documentElement.hasAttribute('data-astro-transition'));
   assert.equal(await page.evaluate(() => window.navigationChecks.token), before.token, 'navigation should keep the same document');
 }
+async function journalRoundTrip(page, entrySelector) {
+  await move(page, entrySelector, '/journal/');
+  const entries = await page.$$eval('.journal-entries a', links => links.map(link => ({
+    href: link.getAttribute('href'), title: link.querySelector('h3').textContent,
+  })));
+  assert.ok(entries.length, 'published journal entries should be available');
+  for (const entry of entries) {
+    await move(page, `.journal-entries a[href="${entry.href}"]`, entry.href);
+    assert.equal(await page.$eval('nav[aria-label="Breadcrumb"] .brand', link => link.getAttribute('href')), '/');
+    assert.equal(await page.$eval('.header-crumb--parent', link => link.textContent), 'Journal');
+    assert.equal(await page.$eval('.header-crumb--parent', link => link.hasAttribute('aria-current')), false);
+    assert.equal(await page.$eval('.header-identity [aria-current="page"]', crumb => crumb.textContent), entry.title);
+    assert.equal(await page.$eval('h1', heading => heading.textContent), entry.title);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    await move(page, '.header-crumb--parent', '/journal/');
+  }
+}
+
 async function homeReady(page) {
   await page.waitForFunction(() => !document.documentElement.classList.contains('intro-active') && document.querySelector('.hero')?.dataset.cycleReady === 'true');
   assert.equal(await page.$('.welcome-screen'), null);
@@ -60,11 +78,13 @@ try {
   await homeReady(page);
   assert.equal(await page.evaluate(() => window.navigationChecks.welcomes), 1);
   await move(page, '.header-nav a[href="/about/"]', '/about/');
-  assert.equal(await page.evaluate(() => document.documentElement.classList.contains('home-tone-enabled')), false);
+  assert.equal(await page.evaluate(() => document.documentElement.classList.contains('home-tone-enabled')), true);
+  assert.equal(await page.evaluate(() => document.documentElement.dataset.paperTone), 'light');
   assert.equal(await page.$eval('.header-crumb', el => el.textContent), 'My Journey');
   await page.click('.journey-index a[href="#practice"]');
   await page.waitForFunction(() => location.hash === '#practice');
   await move(page, '#practice', '/yoga/');
+  await journalRoundTrip(page, '.header-nav a[href="/journal/"]');
   await move(page, '.header-nav a[href="/explore/"]', '/explore/');
   await page.click('[data-filter="Bhakti"]');
   assert.match(await page.$eval('[data-result-count]', el => el.textContent), /Bhakti/);
@@ -87,13 +107,14 @@ try {
   await homeReady(page);
   assert.equal(await page.evaluate(() => window.navigationChecks.welcomes), 0, 'reload must preserve the session flag');
   assert.deepEqual(errors, []);
-  console.log('PASS: first welcome, background portrait loading, all four route animations, history, repeated page controls, reload.');
+  console.log('PASS: first welcome, background portrait loading, all four route animations, journal/article breadcrumbs, history, repeated page controls, reload.');
   await page.close();
 
   for (const options of [{ fallback: true }, { reduced: true }, { blockedStorage: true }]) {
     const { page, errors } = await fixture(options);
     await page.setViewport({ width: 390, height: 844 });
     await page.goto(`${base}/about/`, { waitUntil: 'networkidle0' });
+    await journalRoundTrip(page, '.footer-links a[href="/journal/"]');
     await move(page, '.header-identity .brand', '/');
     if (!options.reduced) {
       await page.waitForFunction(() => document.documentElement.classList.contains('intro-active'));

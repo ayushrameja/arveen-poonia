@@ -12,6 +12,9 @@
   color: var(--closing-ink);
 }
 .home-tone-enabled body { isolation: isolate; }
+/* Interior articles and cards keep their readable paper while the surrounding
+   canvas, header and mobile navigation enter the footer's evening palette. */
+.home-tone-enabled body[data-page='interior'] main { background-color: #faf9f5; color: #203c36; }
 .tone-backdrop { display: none; }
 .home-tone-enabled .tone-backdrop {
   display: block;

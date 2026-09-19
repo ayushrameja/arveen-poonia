@@ -5,27 +5,36 @@ import '../styles/footer.css';
 const path = Astro.url.pathname;
 const links = [['/', 'Home'], ['/explore/', 'Explore'], ['/yoga/', 'Yoga'], ['/shop/', 'Store']];
 ---
-<footer class:list={['site-footer', { 'site-footer--home': path === '/' }]}>
+<footer class="site-footer">
   <picture class="footer-galaxy" aria-hidden="true">
     <source media="(max-width: 700px)" srcset="/images/footer-galaxy-mobile.webp" />
     <img src="/images/footer-galaxy.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
   </picture>
   <div class="content-wrap footer-content">
-    {path === '/' && <section class="journal-invite" data-closing-tone aria-labelledby="footer-journal-heading">
-      <div class="journal-meta"><p class="eyebrow">05 / The journal</p><span class="journal-pause"><span aria-hidden="true">✧</span> A moment of stillness</span></div>
+    <section class="journal-invite" data-closing-tone aria-labelledby="footer-journal-heading">
+      <div class="journal-meta"><p class="eyebrow">The journal</p><span class="journal-pause"><span aria-hidden="true">✧</span> A moment of stillness</span></div>
       <div class="journal-copy">
         <h2 id="footer-journal-heading">For the moments<br />between the videos.</h2>
         <p>Short reads, thoughtful questions,<br class="journal-mobile-break" /> and a little room to reflect.</p>
         <a class="journal-link" href="/journal/">Take a moment to read <span aria-hidden="true">↗</span></a>
       </div>
       <span class="journal-orbit" aria-hidden="true"><span>Stay curious. Stay present.</span></span>
-    </section>}
+    </section>
+    <aside id="creator-note" tabindex="-1" class="creator-note" aria-labelledby="creator-note-heading">
+      <div class="creator-note-label"><span aria-hidden="true">✧</span><h2 id="creator-note-heading">Unofficial website</h2></div>
+      <div class="creator-note-copy">
+        <p>I’m Ayush Rameja. I created this independent website to help more people discover Arveen Poonia’s content. It isn’t affiliated with or endorsed by Arveen. I’ve reached out about making it his official website and am awaiting his response.</p>
+        <p>Arveen, if you’re reading this, let’s connect. I’d love to help you build your online home and support the work you share. Thank you for the inspiration.</p>
+        <span class="creator-note-signature">With respect, Ayush</span>
+        <div class="creator-note-links"><a href="https://ayush.im" target="_blank" rel="noopener noreferrer"><span class="link-label">ayush.im</span><span aria-hidden="true">↗</span></a><a href="mailto:ayushrameja@gmail.com"><span class="link-label">Let’s connect</span><span aria-hidden="true">↗</span></a></div>
+      </div>
+    </aside>
     <div class="footer-top">
       <div class="footer-brand"><a class="brand" href="/"><PeacockMark /><span class="wordmark">Arveen Poonia</span></a><p>A little devotion. A little discipline.<br />A more conscious everyday life.</p></div>
       <nav class="footer-links" aria-label="Footer explore"><h2>Explore</h2><a href="/about/">My Journey</a><a href="/journal/">Journal</a><a href="/yoga/">Yoga & practice</a></nav>
-      <nav class="footer-links" aria-label="Footer connect"><h2>Connect</h2><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer">YouTube <span aria-hidden="true">↗</span></a><a href="mailto:arveenpoonia0101@gmail.com">Get in touch <span aria-hidden="true">↗</span></a></nav>
+      <nav class="footer-links" aria-label="Footer connect"><h2>Connect</h2><a href="https://www.youtube.com/@arveenpoonia31" target="_blank" rel="noopener noreferrer"><span class="link-label">YouTube</span><span aria-hidden="true">↗</span></a><a href="mailto:ayushrameja@gmail.com"><span class="link-label">Contact Ayush</span><span aria-hidden="true">↗</span></a></nav>
     </div>
     <div class="footer-bottom"><span>© {new Date().getFullYear()} Arveen Poonia</span><span class="footer-signoff"><span aria-hidden="true">✧</span> Made with intention. Hare Krishna.</span></div>
   </div>
 </footer>
-<nav class="bottom-nav" aria-label="Mobile navigation">{path === '/' && <ToneBackdrop />}{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>
+<nav class="bottom-nav" aria-label="Mobile navigation"><ToneBackdrop />{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>

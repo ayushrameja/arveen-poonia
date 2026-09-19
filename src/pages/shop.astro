@@ -1,9 +1,37 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import HeroCta from '../components/HeroCta.astro';
+import PeacockMark from '../components/PeacockMark.astro';
 import ProductCard from '../components/ProductCard.astro';
 import products from '../data/products.json';
+import '../styles/store.css';
 ---
-<PageLayout title="Divine Store" eyebrow="Devotion in the everyday" heading="Objects with a little more meaning." description="Discover a few devotional essentials from Arveen Divine, chosen for moments of chanting, reading, and remembrance.">
-<section class="content-wrap shop-section"><h2 class="sr-only">Featured products</h2><div class="shop-note"><span>From the Arveen Divine collection</span><span>Explore here · Shop on Arveen Divine</span></div><div class="product-grid">{products.map(product=><ProductCard product={product} />)}</div><p class="small-note store-disclosure">Prices, availability, shipping, and checkout are handled by Arveen Divine. Visit a product page for current details.</p></section>
-<section class="section-block sage-section"><div class="content-wrap store-story"><p class="eyebrow">The intention behind the collection</p><h2>A companion<br />to your daily practice.</h2><p>Founded by Arveen Poonia, Arveen Divine brings together devotional essentials for people making space for bhakti in their lives.</p><a class="hero-cta" href="https://arveendivine.com" target="_blank" rel="noopener noreferrer">Visit Arveen Divine</a></div></section>
-</PageLayout>
+<BaseLayout title="Divine Store — Arveen Poonia" description="Discover a few devotional essentials from Arveen Divine, chosen for moments of chanting, reading, and remembrance.">
+  <SiteHeader breadcrumb="Divine Store" />
+  <main id="main-content" class="store-page" tabindex="-1">
+    <section class="store-hero content-wrap" aria-labelledby="store-heading">
+      <div>
+        <p class="store-kicker"><span aria-hidden="true">✳</span> DEVOTION IN THE EVERYDAY</p>
+        <h1 id="store-heading">Objects with<br />a little more<br /><span>meaning.</span></h1>
+        <p class="store-lead">Discover a few devotional essentials from Arveen Divine, chosen for moments of chanting, reading, and remembrance.</p>
+        <div class="store-actions"><HeroCta href="#collection" label="Discover the collection" /><a class="store-link" href="https://arveendivine.com" target="_blank" rel="noopener noreferrer"><span class="link-label">Visit Arveen Divine</span><span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></div>
+      </div>
+      <div class="store-insignia" aria-hidden="true"><div class="store-insignia-rings"><i></i><i></i><i></i></div><div class="store-insignia-center"><PeacockMark /><span>Arveen<br />Divine</span><small>DEVOTION, KEPT CLOSE.</small></div></div>
+    </section>
+    <div class="store-threads content-wrap"><p>From the Arveen Divine collection</p><div><span><b aria-hidden="true">✧</b> Chanting</span><span><b aria-hidden="true">✧</b> Reading</span><span><b aria-hidden="true">✧</b> Remembrance</span></div></div>
+
+    <section class="store-catalogue" id="collection" aria-labelledby="collection-heading"><div class="content-wrap">
+      <div class="store-catalogue-heading"><div><p class="store-kicker">THE COLLECTION / {String(products.length).padStart(2, '0')} ESSENTIALS</p><h2 id="collection-heading">Little things.<br /><span>Meaningful rituals.</span></h2></div><p>Explore here · Shop on Arveen Divine<br />Product links open in a new tab.</p></div>
+      <div class="product-grid">{products.map(product => <ProductCard product={product} />)}</div>
+      <div class="store-shopping-note"><span aria-hidden="true">✳</span><p>Prices, availability, shipping, and checkout are handled by Arveen Divine. Visit a product page for current details.</p></div>
+    </div></section>
+
+    <section class="store-intention content-wrap" aria-labelledby="intention-heading">
+      <div class="store-ritual"><div class="store-ritual-top"><span>DEVOTION, DAY BY DAY</span><span aria-hidden="true">✳</span></div><p>A moment to chant.<br />A page to read.<br /><span>A little remembrance.</span></p><small>A little devotion, in the things you keep close.</small><div class="store-ritual-orbit" aria-hidden="true"></div></div>
+      <div class="store-intention-copy"><p class="store-kicker">THE INTENTION BEHIND THE COLLECTION</p><h2 id="intention-heading">A companion<br /><span>to your daily practice.</span></h2><p>Founded by Arveen Poonia, Arveen Divine brings together devotional essentials for people making space for bhakti in their lives.</p><HeroCta href="https://arveendivine.com" label="Visit Arveen Divine" /></div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
