@@ -18,6 +18,7 @@ pnpm check    # Astro and TypeScript diagnostics
 pnpm test     # Animation accessibility and lifecycle checks
 pnpm build    # Check and generate static HTML in dist/
 pnpm preview  # Preview the production build
+pnpm test:navigation http://localhost:4321  # Browser checks against the running preview
 pnpm assets:portraits  # Encode the clear source portraits as responsive WebP + AVIF files
 ```
 
@@ -50,6 +51,13 @@ Leave it unset for preview deployments.
 Use the shared layout for future pages and supply a unique title and description.
 Add actual social images when the design is ready. Journal articles use Markdown;
 no application state library or CMS is required.
+
+Internal navigation uses Astro's client router with short exit/entry transitions.
+Initialize page behavior with `onPageReady` and dispose observers/listeners on
+`astro:before-swap`. This starts the first page before images finish loading and
+avoids duplicate initialization when Astro announces it again. The homepage
+welcome runs once per tab session (including reloads); its first-scene images
+decode behind the greeting, with a bounded wait for slow connections.
 
 ## Pages and content editing
 

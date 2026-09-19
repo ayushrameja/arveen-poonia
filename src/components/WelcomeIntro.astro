@@ -2,17 +2,24 @@
 import PeacockMark from './PeacockMark.astro';
 import '../styles/welcome-intro.css';
 ---
-<script is:inline>
+<script is:inline data-astro-rerun>
   // Runs before the first paint; a failed module can never strand the visitor.
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && !location.hash) {
+  (() => {
+    const key = 'arveen:welcome-seen';
+    let seen = window.__arveenWelcomeSeen === true;
+    try {
+      seen ||= sessionStorage.getItem(key) === 'true';
+      sessionStorage.setItem(key, 'true');
+    } catch { /* In-memory state still covers route changes when storage is blocked. */ }
+    window.__arveenWelcomeSeen = true;
+    if (seen || matchMedia('(prefers-reduced-motion: reduce)').matches || location.hash) return;
     document.documentElement.classList.add('intro-active');
-    window.setTimeout(() => {
-      if (document.documentElement.classList.contains('intro-active')) {
-        document.documentElement.classList.remove('intro-active');
-        document.dispatchEvent(new Event('intro:timeout'));
-      }
+    const timer = window.setTimeout(() => {
+      document.documentElement.classList.remove('intro-active');
+      document.dispatchEvent(new Event('intro:timeout'));
     }, 12000);
-  }
+    document.addEventListener('intro:complete', () => clearTimeout(timer), { once: true });
+  })();
 </script>
 <div class="welcome-screen" role="dialog" aria-label="Welcome to Arveen Poonia" aria-modal="true">
   <div class="intro-canvas"></div>

@@ -108,35 +108,40 @@ import HeroCta from './HeroCta.astro';
 </style>
 
 <script>
-  const card = document.querySelector<HTMLElement>('[data-practice-ritual]');
-  if (card) {
-    const toggle = card.querySelector<HTMLButtonElement>('.ritual-toggle')!;
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-    const controller = new AbortController();
-    const { signal } = controller;
-    let inView = false;
-    let paused = false;
-    const sync = () => {
-      card.toggleAttribute('data-running', inView && !paused && !document.hidden && !reducedMotion.matches);
-      toggle.hidden = reducedMotion.matches;
-    };
-    card.setAttribute('data-enhanced', '');
-    const observer = new IntersectionObserver(entries => {
-      inView = entries[0].isIntersecting;
+  import { onPageReady } from '../scripts/page-ready';
+  function initPractice() {
+    const card = document.querySelector<HTMLElement>('[data-practice-ritual]');
+    if (card) {
+      const toggle = card.querySelector<HTMLButtonElement>('.ritual-toggle')!;
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+      const controller = new AbortController();
+      const { signal } = controller;
+      let inView = false;
+      let paused = false;
+      const sync = () => {
+        card.toggleAttribute('data-running', inView && !paused && !document.hidden && !reducedMotion.matches);
+        toggle.hidden = reducedMotion.matches;
+      };
+      card.setAttribute('data-enhanced', '');
+      const observer = new IntersectionObserver(entries => {
+        inView = entries[0].isIntersecting;
+        sync();
+      }, { threshold: 0.15 });
+      observer.observe(card);
+      toggle.addEventListener('click', () => {
+        paused = !paused;
+        toggle.setAttribute('aria-pressed', String(paused));
+        toggle.setAttribute('aria-label', `${paused ? 'Resume' : 'Pause'} practice animation`);
+        sync();
+      }, { signal });
+      reducedMotion.addEventListener('change', sync, { signal });
+      document.addEventListener('visibilitychange', sync, { signal });
       sync();
-    }, { threshold: 0.15 });
-    observer.observe(card);
-    toggle.addEventListener('click', () => {
-      paused = !paused;
-      toggle.setAttribute('aria-pressed', String(paused));
-      toggle.setAttribute('aria-label', `${paused ? 'Resume' : 'Pause'} practice animation`);
-      sync();
-    }, { signal });
-    reducedMotion.addEventListener('change', sync, { signal });
-    document.addEventListener('visibilitychange', sync, { signal });
-    sync();
-    const dispose = () => { observer.disconnect(); controller.abort(); card.removeAttribute('data-enhanced'); card.removeAttribute('data-running'); toggle.hidden = true; };
-    document.addEventListener('astro:before-swap', dispose, { once: true, signal });
-    if (import.meta.hot) import.meta.hot.dispose(dispose);
+      const dispose = () => { observer.disconnect(); controller.abort(); card.removeAttribute('data-enhanced'); card.removeAttribute('data-running'); toggle.hidden = true; };
+      document.addEventListener('astro:before-swap', dispose, { once: true, signal });
+      if (import.meta.hot) import.meta.hot.dispose(dispose);
+    }
   }
+  const stop = onPageReady(initPractice);
+  if (import.meta.hot) import.meta.hot.dispose(stop);
 </script>

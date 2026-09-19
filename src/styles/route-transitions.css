@@ -1,0 +1,19 @@
+/* Short departures and softer arrivals, reversed for browser Back navigation.
+   Astro also applies these keyframes in browsers without native view transitions. */
+@keyframes route-exit {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-12px); }
+}
+@keyframes route-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes route-exit-back {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(12px); }
+}
+@keyframes route-enter-back {
+  from { opacity: 0; transform: translateY(-18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+::view-transition-old(root), ::view-transition-new(root) { mix-blend-mode: normal; }

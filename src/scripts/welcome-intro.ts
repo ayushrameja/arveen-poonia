@@ -23,6 +23,14 @@ export function initWelcomeIntro(onComplete: () => void, onHandoff: () => void) 
   let done = false;
   let inFlight = false;
   const ease = 'cubic-bezier(.76,0,.24,1)';
+  // Decode the first visible scene while the greeting plays. Below-the-fold
+  // media keeps its existing lazy-loading policy; no video download blocks entry.
+  const heroReady = Promise.allSettled([
+    document.fonts.ready,
+    ...Array.from(document.querySelectorAll<HTMLImageElement>(
+      '[data-scene-panel="arveen"] img, img.atmosphere-personal',
+    ), image => image.decode()),
+  ]);
   function finish() {
     if (done) return;
     done = true;
@@ -61,6 +69,8 @@ export function initWelcomeIntro(onComplete: () => void, onHandoff: () => void) 
       animate(name, [{ opacity: 0, transform: 'translateY(100%)' }, { opacity: 1, transform: 'translateY(0)' }], 750, 450),
     ]);
     await animate(hello, [{ opacity: 1 }, { opacity: 0, transform: 'translateY(-20px)' }], 350, 600);
+    // A slow or failed asset must never hold the visitor behind the welcome.
+    await Promise.race([heroReady, new Promise(resolve => setTimeout(resolve, 1800))]);
     if (done) return;
     inFlight = true;
     onHandoff();

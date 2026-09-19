@@ -49,7 +49,12 @@ import '../styles/closing-tone.css';
 <script>
   import { initHeroScene } from '../scripts/hero-scene';
   import { initClosingTone } from '../scripts/closing-tone';
-  const hero = document.querySelector<HTMLElement>('.hero');
-  if (hero) initHeroScene(hero);
-  initClosingTone();
+  import { onPageReady } from '../scripts/page-ready';
+  function initHome() {
+    const hero = document.querySelector<HTMLElement>('.hero');
+    if (hero) initHeroScene(hero);
+    initClosingTone();
+  }
+  const stop = onPageReady(initHome);
+  if (import.meta.hot) import.meta.hot.dispose(stop);
 </script>

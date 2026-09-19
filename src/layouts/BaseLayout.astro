@@ -1,5 +1,18 @@
 ---
 import '../styles/global.css';
+import '../styles/route-transitions.css';
+import { ClientRouter } from 'astro:transitions';
+
+const routeTransition = {
+  forwards: {
+    old: { name: 'route-exit', duration: '180ms', easing: 'ease-in', fillMode: 'both' },
+    new: { name: 'route-enter', duration: '420ms', delay: '100ms', easing: 'cubic-bezier(.22,1,.36,1)', fillMode: 'both' },
+  },
+  backwards: {
+    old: { name: 'route-exit-back', duration: '180ms', easing: 'ease-in', fillMode: 'both' },
+    new: { name: 'route-enter-back', duration: '420ms', delay: '100ms', easing: 'cubic-bezier(.22,1,.36,1)', fillMode: 'both' },
+  },
+};
 
 interface Props {
   title?: string;
@@ -21,10 +34,11 @@ const socialImage = image && Astro.site ? new URL(image, Astro.site) : undefined
 const preventIndexing = noindex || !Astro.site;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" transition:name="root" transition:animate={routeTransition}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ClientRouter />
     <meta name="theme-color" content="#faf9f5" />
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
@@ -54,5 +68,7 @@ const preventIndexing = noindex || !Astro.site;
 
 <script>
   import { initPageMotion } from '../scripts/page-motion';
-  initPageMotion();
+  import { onPageReady } from '../scripts/page-ready';
+  const stop = onPageReady(initPageMotion);
+  if (import.meta.hot) import.meta.hot.dispose(stop);
 </script>

@@ -60,6 +60,11 @@ const chapters = [
 </section>
 <script>
   import { initVideoStories } from '../scripts/video-stories';
-  const section = document.querySelector<HTMLElement>('[data-video-stories]');
-  if (section) initVideoStories(section);
+  import { onPageReady } from '../scripts/page-ready';
+  function initStories() {
+    const section = document.querySelector<HTMLElement>('[data-video-stories]');
+    if (section) initVideoStories(section);
+  }
+  const stop = onPageReady(initStories);
+  if (import.meta.hot) import.meta.hot.dispose(stop);
 </script>

@@ -2,6 +2,7 @@ import { initWelcomeIntro } from './welcome-intro';
 
 // Animate independent content blocks, not entire sections containing other reveals.
 const revealSelectors = [
+  '.journey-reveal', '.explore-reveal',
   '.page-intro > *', '.watch-heading', '.video-card', '.product-card',
   '.story-portrait', '.story-copy > *', '.practice-split > *', '.section-heading',
   '.journal-meta', '.journal-copy > *', '.values-grid > *', '.sage-section .content-wrap > .eyebrow',

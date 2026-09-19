@@ -1,11 +1,11 @@
 ---
-interface Props { video: {id:string;title:string;category:string}; featured?:boolean; }
-const {video,featured=false}=Astro.props;
+interface Props { video: {id:string;title:string;category:string}; featured?:boolean; poster?: string; summary?: string; }
+const {video,featured=false,poster,summary}=Astro.props;
 ---
 <a class:list={['video-card', {'video-card--featured':featured}]} data-video-card data-category={video.category} data-title={video.title.toLowerCase()} href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch ${video.title} on YouTube (opens in a new tab)`}>
   <div class="video-image">
-    <img src={`/images/videos/${video.id}.webp`} alt="" width="480" height="270" loading="lazy" decoding="async" />
+    <img src={poster || `/images/videos/${video.id}.webp`} alt="" width={poster ? 960 : 480} height={poster ? 540 : 270} loading={featured ? 'eager' : 'lazy'} fetchpriority={featured ? 'high' : undefined} decoding="async" />
     <span class="play-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 5v14l11-7z" /></svg></span>
   </div>
-  <div class="video-copy"><p class="eyebrow">{featured && <span class="video-feature-label">START HERE</span>}{video.category}</p><h3>{video.title}</h3><span class="video-watch-label">Watch on YouTube</span></div>
+  <div class="video-copy"><p class="eyebrow">{featured && <span class="video-feature-label">START HERE</span>}{video.category}</p><h3>{video.title}</h3>{summary && <p class="video-summary">{summary}</p>}<span class="video-watch-label">Watch on YouTube <span class="video-watch-arrow" aria-hidden="true">↗</span></span></div>
 </a>

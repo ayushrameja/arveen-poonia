@@ -1,8 +1,78 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 import HeroCta from '../components/HeroCta.astro';
+import '../styles/journey.css';
+
+const threads = [
+  { id: 'devotion', number: '01', title: 'Devotion', note: 'A place to return to', description: 'Krishna bhakti, remembrance, and the inspiration found in sacred places. A thread of devotion, woven into everyday life.', href: '/explore/?topic=Bhakti', action: 'Explore bhakti' },
+  { id: 'practice', number: '02', title: 'Daily practice', note: 'A little space to grow', description: 'Yoga, mindful routines, and the everyday effort of living with intention. Making room for movement, stillness, and a fresh beginning.', href: '/yoga/', action: 'Practice with Arveen' },
+  { id: 'connection', number: '03', title: 'Connection', note: 'A life shared with others', description: 'Family moments, shared experiences, and stories from the road. Staying curious about the world, and present with the people in it.', href: '/explore/?topic=Journeys', action: 'Follow the journeys' },
+];
 ---
-<PageLayout title="My Journey" eyebrow="Rooted in devotion" heading="A life with a little more intention." description="Get to know Arveen Poonia through the devotion, daily practice, and curiosity that shape his work.">
-<section class="content-wrap story-split about-story"><div class="story-portrait"><img src="/images/arveen-portrait-640.webp" alt="Arveen Poonia smiling in a lilac kurta" width="640" height="640" /><span class="image-caption">Hare Krishna. Welcome to the journey.</span></div><div class="story-copy"><p class="eyebrow">Bhakti. Yoga. Conscious living.</p><h2>The practice is<br />in the everyday.</h2><p>Arveen shares a life shaped by devotion and discipline. His YouTube channel brings together daily routines, yoga, family moments, and journeys to sacred places.</p><p>At the heart of this website is an invitation to explore those different parts of his world, at your own pace.</p><p>He also founded Arveen Divine, a store offering devotional essentials for chanting, reading, and daily practice.</p><HeroCta href="https://www.youtube.com/watch?v=G6urhfhD7eA" label="Watch my yoga journey" /></div></section>
-<section class="section-block sage-section"><div class="content-wrap"><p class="eyebrow">The threads that connect it all</p><h2>Many expressions.<br />One ongoing journey.</h2><div class="values-grid"><div><span class="item-number">01</span><h3>Devotion</h3><p>Krishna bhakti, remembrance, and the inspiration found in sacred places.</p><a class="text-link" href="/explore/?topic=Bhakti">Explore bhakti</a></div><div><span class="item-number">02</span><h3>Daily practice</h3><p>Yoga, routines, and the everyday effort of living with intention.</p><a class="text-link" href="/yoga/">Practice with Arveen</a></div><div><span class="item-number">03</span><h3>Connection</h3><p>Family, shared experiences, and stories from the road.</p><a class="text-link" href="/explore/?topic=Journeys">Follow the journeys</a></div></div></div></section>
-</PageLayout>
+<BaseLayout title="My Journey — Arveen Poonia" description="Get to know Arveen Poonia through the devotion, daily practice, and curiosity that shape his work.">
+  <SiteHeader breadcrumb="My Journey" />
+  <main id="main-content" class="journey-page" tabindex="-1">
+    <section class="journey-hero content-wrap" aria-labelledby="journey-heading">
+      <div class="journey-intro">
+        <p class="journey-kicker"><span aria-hidden="true">✳</span> ROOTED IN DEVOTION</p>
+        <h1 id="journey-heading">A life with<br />a little more<br /><span>intention.</span></h1>
+        <p class="journey-lead">Hare Krishna. I’m Arveen.</p>
+        <p class="journey-description">Welcome to my world of bhakti, yoga, and conscious living. An ongoing journey of finding meaning in the everyday.</p>
+        <div class="journey-hero-actions"><HeroCta href="#journey-threads" label="Explore my journey" /><span>One day. One practice.<br />One step at a time.</span></div>
+      </div>
+      <figure class="journey-portrait">
+        <div class="journey-portrait-art">
+          <div class="journey-orbits" aria-hidden="true"><span></span><span></span><span></span></div>
+          <span class="journey-portrait-note" aria-hidden="true">DEVOTION · PRESENCE · DISCOVERY</span>
+          <picture>
+            <source type="image/avif" srcset="/images/hero-arveen-portrait-640.avif 640w, /images/hero-arveen-portrait-960.avif 960w, /images/hero-arveen-portrait-1280.avif 1280w" sizes="(max-width: 700px) 100vw, 50vw" />
+            <img src="/images/hero-arveen-portrait-640.webp" alt="Arveen Poonia smiling in a lilac kurta" width="640" height="640" fetchpriority="high" />
+          </picture>
+        </div>
+        <figcaption><span>Arveen Poonia</span><span>Rooted in devotion.<br />Open to discovery.</span></figcaption>
+      </figure>
+      <nav class="journey-index" aria-label="The threads of my journey">
+        {threads.map(thread => <a href={`#${thread.id}`}><span class="journey-index-number">{thread.number}</span><span>{thread.title}</span><span class="journey-index-arrow" aria-hidden="true">↘</span></a>)}
+      </nav>
+    </section>
+
+    <section class="journey-story content-wrap" aria-labelledby="everyday-heading">
+      <div class="journey-reveal"><p class="journey-kicker">BEHIND THE STORIES</p><h2 id="everyday-heading">The practice is<br /><span>in the everyday.</span></h2></div>
+      <div class="journey-story-copy journey-reveal">
+        <p>Arveen shares a life shaped by devotion and discipline. His YouTube channel brings together daily routines, yoga, family moments, and journeys to sacred places.</p>
+        <p>At the heart of it all is an invitation to explore those different parts of his world, at your own pace.</p>
+        <p>He also founded <a href="/shop/">Arveen Divine <span aria-hidden="true">↗</span></a>, a store offering devotional essentials for chanting, reading, and daily practice.</p>
+      </div>
+    </section>
+
+    <section class="journey-threads" id="journey-threads" aria-labelledby="threads-heading">
+      <div class="content-wrap">
+        <div class="journey-section-heading journey-reveal"><div><p class="journey-kicker">THE THREADS THAT CONNECT IT ALL</p><h2 id="threads-heading">Many expressions.<br /><span>One ongoing journey.</span></h2></div><p>Different parts of life.<br />The same intention at heart.</p></div>
+        <div class="journey-thread-grid">
+          {threads.map(thread => (
+            <a href={thread.href} id={thread.id} class:list={['journey-thread', `journey-thread--${thread.id}`, 'journey-reveal']}>
+              <div class="journey-thread-top"><span>{thread.number} / {thread.title}</span><span aria-hidden="true">↗</span></div>
+              <div class:list={['journey-motif', `journey-motif--${thread.id}`]} aria-hidden="true"><i></i><i></i><i></i><span>✳</span></div>
+              <p class="journey-thread-note">{thread.note}</p>
+              <h3>{thread.title}</h3><p class="journey-thread-description">{thread.description}</p>
+              <span class="journey-thread-action">{thread.action}<span aria-hidden="true">↗</span></span>
+            </a>
+          ))}
+        </div>
+        <p class="journey-thread-footnote"><span aria-hidden="true">✧</span> A little devotion, in the things we do.</p>
+      </div>
+    </section>
+
+    <section class="journey-watch content-wrap" aria-labelledby="journey-watch-heading">
+      <a class="journey-film journey-reveal" href="https://www.youtube.com/watch?v=G6urhfhD7eA" target="_blank" rel="noopener noreferrer" aria-label="Watch my yoga journey on YouTube (opens in a new tab)">
+        <img src="/videos/previews/yoga-journey.webp" alt="Arveen sharing his yoga journey" width="960" height="540" loading="lazy" decoding="async" />
+        <span class="journey-film-play" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="m6 3 11 7-11 7Z" /></svg></span>
+        <span class="journey-film-caption"><span>FROM THE JOURNEY</span><span>Watch on YouTube ↗</span></span>
+      </a>
+      <div class="journey-watch-copy journey-reveal"><p class="journey-kicker">A MOMENT ALONG THE WAY</p><h2 id="journey-watch-heading">A practice.<br /><span>A way of living.</span></h2><p>Yoga is one of the threads in this story. Join Arveen as he shares his journey with the practice, and what it means in everyday life.</p><HeroCta href="https://www.youtube.com/watch?v=G6urhfhD7eA" label="Watch my yoga journey" /><a class="journey-more" href="/explore/">More stories to explore <span aria-hidden="true">↗</span></a></div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
